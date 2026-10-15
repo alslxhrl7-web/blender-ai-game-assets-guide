@@ -1,0 +1,25 @@
+# Blender 5.2.2 LTS MTL File: 'seokgu_04_final.blend'
+# www.blender.org
+
+newmtl M_Seokgu
+Ka 1.000000 1.000000 1.000000
+Ks 1.000000 1.000000 1.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+map_Kd base_color.png
+map_Ns orm.png
+map_refl orm.png
+map_Bump -bm 1.000000 normal.png
+
+newmtl M_Seokgu_Helmet
+Ns 250.000000
+Ka 0.850000 0.850000 0.850000
+Ks 1.000000 1.000000 1.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 3
+map_Kd base_color.png
+map_Bump -bm 1.000000 normal.png

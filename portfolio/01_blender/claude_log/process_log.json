@@ -1,0 +1,725 @@
+{
+ "seokgu": {
+  "merge_by_distance": "정점 141249 → 99992 (겹친 정점 41257개 합침, 거리 0.1 mm)",
+  "islands": "조각 3836(합치기 전) → 4(합친 후) → 지운 조각 3 / 남긴 조각 1",
+  "removed_parts": [
+   {
+    "verts": 15,
+    "center": [
+     -0.001,
+     -0.181,
+     0.779
+    ],
+    "size": [
+     0.004,
+     0.003,
+     0.007
+    ]
+   },
+   {
+    "verts": 58,
+    "center": [
+     -0.006,
+     -0.157,
+     0.789
+    ],
+    "size": [
+     0.022,
+     0.011,
+     0.015
+    ]
+   },
+   {
+    "verts": 8,
+    "center": [
+     -0.035,
+     -0.184,
+     1.052
+    ],
+    "size": [
+     0.006,
+     0.001,
+     0.005
+    ]
+   }
+  ],
+  "decimate": {
+   "tris_raw": 200000,
+   "tris_before_decimate": 199850,
+   "ratio": 0.1001,
+   "tris_after": 20000
+  },
+  "material_links": [
+   "BSDF_PRINCIPLED.BSDF → OUTPUT_MATERIAL.Surface",
+   "NORMAL_MAP.Normal → BSDF_PRINCIPLED.Normal",
+   "TEX_IMAGE.Color → BSDF_PRINCIPLED.Base Color",
+   "TEX_IMAGE.Color → NORMAL_MAP.Color",
+   "TEX_IMAGE.Color → BSDF_PRINCIPLED.Roughness",
+   "TEX_IMAGE.Color → BSDF_PRINCIPLED.Metallic"
+  ],
+  "texture_resize": {
+   "base_color": "4096→2048",
+   "orm": "4096→2048"
+  },
+  "hsv": {
+   "saturation": 0.9,
+   "value": 0.87,
+   "평균색_sRGB_전": [
+    0.434,
+    0.408,
+    0.326
+   ],
+   "평균색_sRGB_후": [
+    0.407,
+    0.385,
+    0.317
+   ],
+   "평균채도_전(선형)": 0.45
+  },
+  "metal": {
+   "금속_픽셀_비율": 0.0009,
+   "금속부_평균(Metallic,Roughness)_전": [
+    0.52,
+    0.497
+   ],
+   "금속부_평균_후": [
+    0.808,
+    0.491
+   ]
+  },
+  "parts": {
+   "챙_높이_m": 1.514,
+   "챙_반지름_m": 0.162,
+   "철모_tris": 1271,
+   "머리_구멍_메운_면": 1
+  },
+  "normals_holes": {
+   "Seokgu": {
+    "뒤집혔던_면": 74,
+    "non_manifold_전": 135,
+    "메운_구멍면": 0,
+    "non_manifold_후": 135,
+    "tris": 18807
+   },
+   "Seokgu_Helmet": {
+    "뒤집혔던_면": 0,
+    "non_manifold_전": 203,
+    "메운_구멍면": 29,
+    "non_manifold_후": 80,
+    "tris": 1336
+   }
+  },
+  "tris_final": 20143
+ },
+ "garand": {
+  "merge_by_distance": "정점 14448 → 9986 (겹친 정점 4462개 합침, 거리 0.1 mm)",
+  "islands": "조각 289(합치기 전) → 1(합친 후) → 지운 조각 0 / 남긴 조각 1",
+  "removed_parts": [],
+  "decimate": {
+   "tris_raw": 20000,
+   "tris_before_decimate": 20000,
+   "ratio": 0.25,
+   "tris_after": 5000
+  },
+  "material_links": [
+   "BSDF_PRINCIPLED.BSDF → OUTPUT_MATERIAL.Surface",
+   "NORMAL_MAP.Normal → BSDF_PRINCIPLED.Normal",
+   "TEX_IMAGE.Color → BSDF_PRINCIPLED.Base Color",
+   "TEX_IMAGE.Color → NORMAL_MAP.Color",
+   "TEX_IMAGE.Color → BSDF_PRINCIPLED.Roughness",
+   "TEX_IMAGE.Color → BSDF_PRINCIPLED.Metallic"
+  ],
+  "texture_resize": "변경 없음 (이미 2K)",
+  "hsv": {
+   "saturation": 0.9,
+   "value": 0.87,
+   "평균색_sRGB_전": [
+    0.401,
+    0.317,
+    0.256
+   ],
+   "평균색_sRGB_후": [
+    0.376,
+    0.307,
+    0.261
+   ],
+   "평균채도_전(선형)": 0.488
+  },
+  "metal": {
+   "금속_픽셀_비율": 0.3207,
+   "금속부_평균(Metallic,Roughness)_전": [
+    0.644,
+    0.385
+   ],
+   "금속부_평균_후": [
+    0.858,
+    0.404
+   ]
+  },
+  "normals_holes": {
+   "M1Garand": {
+    "뒤집혔던_면": 0,
+    "non_manifold_전": 0,
+    "메운_구멍면": 0,
+    "non_manifold_후": 0,
+    "tris": 5000
+   }
+  },
+  "tris_final": 5000
+ },
+ "sandbag": {
+  "merge_by_distance": "정점 395420 → 248942 (겹친 정점 146478개 합침, 거리 0.1 mm)",
+  "islands": "조각 15607(합치기 전) → 38(합친 후) → 지운 조각 37 / 남긴 조각 1",
+  "removed_parts": [
+   {
+    "verts": 40,
+    "center": [
+     -1.489,
+     0.045,
+     0.078
+    ],
+    "size": [
+     0.035,
+     0.075,
+     0.045
+    ]
+   },
+   {
+    "verts": 31,
+    "center": [
+     -1.475,
+     -0.047,
+     0.049
+    ],
+    "size": [
+     0.05,
+     0.054,
+     0.04
+    ]
+   },
+   {
+    "verts": 21,
+    "center": [
+     -1.462,
+     -0.847,
+     0.148
+    ],
+    "size": [
+     0.035,
+     0.027,
+     0.032
+    ]
+   },
+   {
+    "verts": 31,
+    "center": [
+     -1.424,
+     -0.056,
+     0.043
+    ],
+    "size": [
+     0.031,
+     0.035,
+     0.028
+    ]
+   },
+   {
+    "verts": 24,
+    "center": [
+     -1.376,
+     -0.381,
+     0.061
+    ],
+    "size": [
+     0.037,
+     0.038,
+     0.035
+    ]
+   },
+   {
+    "verts": 23,
+    "center": [
+     -1.348,
+     0.3,
+     0.075
+    ],
+    "size": [
+     0.034,
+     0.039,
+     0.037
+    ]
+   },
+   {
+    "verts": 21,
+    "center": [
+     -1.345,
+     0.899,
+     0.114
+    ],
+    "size": [
+     0.034,
+     0.034,
+     0.023
+    ]
+   },
+   {
+    "verts": 26,
+    "center": [
+     -1.296,
+     -0.621,
+     0.081
+    ],
+    "size": [
+     0.048,
+     0.036,
+     0.032
+    ]
+   },
+   {
+    "verts": 37,
+    "center": [
+     -1.187,
+     0.851,
+     0.142
+    ],
+    "size": [
+     0.054,
+     0.044,
+     0.046
+    ]
+   },
+   {
+    "verts": 38,
+    "center": [
+     -1.177,
+     -1.458,
+     0.125
+    ],
+    "size": [
+     0.046,
+     0.051,
+     0.042
+    ]
+   },
+   {
+    "verts": 31,
+    "center": [
+     -1.134,
+     -0.473,
+     0.083
+    ],
+    "size": [
+     0.038,
+     0.038,
+     0.04
+    ]
+   },
+   {
+    "verts": 29,
+    "center": [
+     -1.099,
+     1.01,
+     0.137
+    ],
+    "size": [
+     0.058,
+     0.049,
+     0.041
+    ]
+   },
+   {
+    "verts": 27,
+    "center": [
+     -1.049,
+     0.774,
+     0.12
+    ],
+    "size": [
+     0.047,
+     0.029,
+     0.04
+    ]
+   },
+   {
+    "verts": 30,
+    "center": [
+     -0.982,
+     0.647,
+     0.128
+    ],
+    "size": [
+     0.043,
+     0.043,
+     0.034
+    ]
+   },
+   {
+    "verts": 25,
+    "center": [
+     -0.886,
+     -1.384,
+     0.152
+    ],
+    "size": [
+     0.035,
+     0.044,
+     0.038
+    ]
+   },
+   {
+    "verts": 28,
+    "center": [
+     -0.847,
+     -1.22,
+     0.111
+    ],
+    "size": [
+     0.04,
+     0.036,
+     0.047
+    ]
+   },
+   {
+    "verts": 24,
+    "center": [
+     -0.756,
+     -1.161,
+     0.073
+    ],
+    "size": [
+     0.037,
+     0.035,
+     0.036
+    ]
+   },
+   {
+    "verts": 37,
+    "center": [
+     -0.683,
+     -1.382,
+     0.137
+    ],
+    "size": [
+     0.032,
+     0.066,
+     0.033
+    ]
+   },
+   {
+    "verts": 24,
+    "center": [
+     -0.457,
+     -1.548,
+     0.122
+    ],
+    "size": [
+     0.039,
+     0.027,
+     0.031
+    ]
+   },
+   {
+    "verts": 52,
+    "center": [
+     0.255,
+     -1.417,
+     0.07
+    ],
+    "size": [
+     0.065,
+     0.087,
+     0.054
+    ]
+   },
+   {
+    "verts": 25,
+    "center": [
+     0.498,
+     0.847,
+     0.053
+    ],
+    "size": [
+     0.044,
+     0.037,
+     0.042
+    ]
+   },
+   {
+    "verts": 33,
+    "center": [
+     0.987,
+     -1.523,
+     0.125
+    ],
+    "size": [
+     0.05,
+     0.028,
+     0.038
+    ]
+   },
+   {
+    "verts": 34,
+    "center": [
+     0.987,
+     -1.452,
+     0.109
+    ],
+    "size": [
+     0.06,
+     0.048,
+     0.046
+    ]
+   },
+   {
+    "verts": 44,
+    "center": [
+     1.031,
+     -1.041,
+     0.061
+    ],
+    "size": [
+     0.053,
+     0.062,
+     0.052
+    ]
+   },
+   {
+    "verts": 23,
+    "center": [
+     1.028,
+     0.921,
+     0.149
+    ],
+    "size": [
+     0.026,
+     0.027,
+     0.03
+    ]
+   },
+   {
+    "verts": 22,
+    "center": [
+     1.091,
+     -0.617,
+     0.07
+    ],
+    "size": [
+     0.025,
+     0.03,
+     0.027
+    ]
+   },
+   {
+    "verts": 27,
+    "center": [
+     1.137,
+     -0.053,
+     0.066
+    ],
+    "size": [
+     0.039,
+     0.041,
+     0.034
+    ]
+   },
+   {
+    "verts": 61,
+    "center": [
+     1.228,
+     1.298,
+     1.145
+    ],
+    "size": [
+     0.075,
+     0.07,
+     0.044
+    ]
+   },
+   {
+    "verts": 29,
+    "center": [
+     1.211,
+     0.311,
+     0.077
+    ],
+    "size": [
+     0.031,
+     0.032,
+     0.033
+    ]
+   },
+   {
+    "verts": 77,
+    "center": [
+     1.356,
+     1.288,
+     1.157
+    ],
+    "size": [
+     0.125,
+     0.097,
+     0.06
+    ]
+   },
+   {
+    "verts": 24,
+    "center": [
+     1.346,
+     -0.152,
+     0.088
+    ],
+    "size": [
+     0.034,
+     0.032,
+     0.03
+    ]
+   },
+   {
+    "verts": 23,
+    "center": [
+     1.374,
+     -0.76,
+     0.103
+    ],
+    "size": [
+     0.036,
+     0.028,
+     0.026
+    ]
+   },
+   {
+    "verts": 28,
+    "center": [
+     1.379,
+     0.447,
+     0.114
+    ],
+    "size": [
+     0.046,
+     0.035,
+     0.034
+    ]
+   },
+   {
+    "verts": 39,
+    "center": [
+     1.425,
+     0.973,
+     0.109
+    ],
+    "size": [
+     0.066,
+     0.046,
+     0.039
+    ]
+   },
+   {
+    "verts": 29,
+    "center": [
+     1.432,
+     -0.791,
+     0.136
+    ],
+    "size": [
+     0.03,
+     0.053,
+     0.042
+    ]
+   },
+   {
+    "verts": 35,
+    "center": [
+     1.458,
+     1.03,
+     0.113
+    ],
+    "size": [
+     0.047,
+     0.04,
+     0.024
+    ]
+   },
+   {
+    "verts": 36,
+    "center": [
+     1.688,
+     -2.471,
+     0.982
+    ],
+    "size": [
+     0.045,
+     0.046,
+     0.059
+    ]
+   }
+  ],
+  "decimate": {
+   "tris_raw": 500000,
+   "tris_before_decimate": 497772,
+   "ratio": 0.0804,
+   "tris_after": 40000
+  },
+  "material_links": [
+   "BSDF_PRINCIPLED.BSDF → OUTPUT_MATERIAL.Surface",
+   "NORMAL_MAP.Normal → BSDF_PRINCIPLED.Normal",
+   "TEX_IMAGE.Color → BSDF_PRINCIPLED.Base Color",
+   "TEX_IMAGE.Color → NORMAL_MAP.Color"
+  ],
+  "texture_resize": {
+   "base_color": "4096→2048"
+  },
+  "hsv": {
+   "saturation": 0.9,
+   "value": 0.87,
+   "평균색_sRGB_전": [
+    0.448,
+    0.313,
+    0.208
+   ],
+   "평균색_sRGB_후": [
+    0.42,
+    0.308,
+    0.229
+   ],
+   "평균채도_전(선형)": 0.79
+  },
+  "metal": "Metallic 맵 없음 (마대·흙·판자만 있음)",
+  "parts": {
+   "Sandbag_Wall_Front": 6131,
+   "Sandbag_Wall_Left": 3397,
+   "Sandbag_Wall_Right": 3039,
+   "Sandbag_Ground": 27433
+  },
+  "normals_holes": {
+   "Sandbag_Ground": {
+    "뒤집혔던_면": 27,
+    "non_manifold_전": 1211,
+    "메운_구멍면": 23,
+    "non_manifold_후": 1037,
+    "tris": 27567
+   },
+   "Sandbag_Wall_Front": {
+    "뒤집혔던_면": 477,
+    "non_manifold_전": 545,
+    "메운_구멍면": 4,
+    "non_manifold_후": 522,
+    "tris": 6154
+   },
+   "Sandbag_Wall_Left": {
+    "뒤집혔던_면": 47,
+    "non_manifold_전": 463,
+    "메운_구멍면": 9,
+    "non_manifold_후": 376,
+    "tris": 3472
+   },
+   "Sandbag_Wall_Right": {
+    "뒤집혔던_면": 21,
+    "non_manifold_전": 415,
+    "메운_구멍면": 4,
+    "non_manifold_후": 382,
+    "tris": 3065
+   }
+  },
+  "tris_final": 40258
+ }
+}
