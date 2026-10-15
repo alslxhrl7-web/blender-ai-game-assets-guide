@@ -1,10 +1,10 @@
 # Blender로 AI 3D 에셋을 게임용으로 정리하기 — 「다섯 개의 강」
 
-제1차 성취도 평가 (블렌더 기초) 포트폴리오. VARCO 3D로 만든 리소스 3종을 Blender와 Claude로 게임에 바로 쓸 수 있게 정리하고, Unity에서 결과를 확인했다.
+제1차 성취도 평가 (블렌더 기초) 포트폴리오 — 나민재. VARCO 3D로 만든 리소스 3종을 Blender와 Claude로 게임에 바로 쓸 수 있게 정리하고, Unity에서 결과를 확인했다.
 
 - 게임: 《다섯 개의 강: The Forgotten War》 — 1950년 낙동강 방어선 배경의 1인칭 FPS 싱글 캠페인
 - 도구: VARCO 3D, Blender 5.2, Unity 6000.6 (URP), Claude Code
-- 포트폴리오 PDF: [`portfolio/01_blender/01_블렌더기초_다섯개의강_완성.pdf`](portfolio/01_blender/01_블렌더기초_다섯개의강_완성.pdf)
+- 포트폴리오 PDF: [`portfolio/01_blender/01_블렌더기초_나민재.pdf`](portfolio/01_blender/01_블렌더기초_나민재.pdf)
 
 ## 결과 요약
 
