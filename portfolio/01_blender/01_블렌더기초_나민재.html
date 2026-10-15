@@ -131,8 +131,8 @@ pre { font-family: "DejaVu Sans Mono", monospace; font-size: 7.1pt; line-height:
 <h3>③ 배경 · 모래주머니 진지</h3>
 <div class="flow"><div class="n"><b>Text</b>진지 프롬프트</div><div class="a">→</div><div class="n"><b>GenerateImage ×2</b>중 선택</div><div class="a">→</div><div class="n"><b>Generate3D</b>tri · 100,000 · 4K · PBR</div><div class="a">→</div><div class="n"><b>FBX</b>다운로드</div></div>
 <ul>
-<li>U자형 마대 모래주머니 흉벽(3~4단, 폭 약 3 m), 안쪽 판자 보강, 바깥 흙. 사람·무기·탄약 상자·철조망은 넣지 않았다. 메시에 붙어 나오면 떼어 낼 수 없어서다.</li>
-<li>디오라마 받침이 붙지 않도록 프롬프트에 "no base plate, no pedestal"을 넣었다. 그래도 붙어 나오면 Blender에서 삭제한다.</li>
+<li>ㄷ자형 마대 모래주머니 흉벽(3~4단, 프롬프트 기준 폭 약 3 m — 정리 단계에서 게임 기준 6 m로 맞춤), 안쪽 판자 보강, 바깥 흙. 사람·무기·탄약 상자·철조망은 넣지 않았다. 메시에 붙어 나오면 떼어 낼 수 없어서다.</li>
+<li>디오라마 받침이 붙지 않도록 프롬프트에 "no base plate, no pedestal"을 넣었다. 결과물의 흙 바닥은 진지의 일부라 지우지 않고 Sandbag_Ground로 분리해 남겼다.</li>
 <li>정리 전 폴리곤: <span class="m">500,000 tris</span> (머티리얼 1개, 4K base_color, FBX 75.4 MB, 떨어진 조각 15,607 → 정점 합친 뒤 38)</li>
 </ul>
 <div class="shot" style="height:42mm"><div class="g3"><img src="captures/before/seokgu_persp.png" style="object-position:50% 40%"><img src="captures/before/garand_persp.png"><img src="captures/before/sandbag_persp.png"></div><div class="cap">VARCO 3D 생성 결과 (원본 FBX를 Blender에서 연 화면 · 200,000 / 20,000 / 500,000 tris)</div></div>
@@ -159,8 +159,8 @@ pre { font-family: "DejaVu Sans Mono", monospace; font-size: 7.1pt; line-height:
 
 <h3>최적화 <small>폴리곤 줄이기 · 불필요한 조각 제거</small></h3>
 <ol>
-<li>Edit Mode → Mesh → Separate → By Loose Parts로 조각을 나눈 뒤, 떠 있는 작은 조각과 받침을 삭제 (요청 3)</li>
-<li>Merge by Distance로 겹친 정점 정리</li>
+<li>Merge by Distance(0.1 mm)로 겹친 정점 정리 — UV 이음매로 갈라진 정점을 먼저 합쳐야 조각이 제대로 잡힌다</li>
+<li>Separate → By Loose Parts로 조각을 나눈 뒤, 정점 수가 전체의 1%보다 적은 떠 있는 조각 삭제 (요청 3)</li>
 <li>Decimate(Collapse) 모디파이어로 목표 삼각형 수까지 줄인 뒤 Apply → 실루엣과 텍스처 깨짐 확인 (요청 2)</li>
 </ol>
 <table>
@@ -169,7 +169,7 @@ pre { font-family: "DejaVu Sans Mono", monospace; font-size: 7.1pt; line-height:
 <tr><td>M1 개런드</td><td>20,000</td><td>약 5,000</td><td class="m">5,000 (−75.0%)</td><td>0.2500</td><td>0</td></tr>
 <tr><td>모래주머니 진지</td><td>500,000</td><td>약 40,000</td><td class="m">40,258 (−91.9%)</td><td>0.0804</td><td>37 (바닥 자갈)</td></tr>
 </table>
-<div class="note">석구는 20,000으로 생성했지만 받은 FBX가 200,000이어서 Decimate 0.1로 줄였다. 원본은 UV 이음매마다 정점이 갈라져 '떨어진 조각'이 석구 3,836개로 잡혀서, <b>Merge by Distance(0.1 mm)를 먼저 한 뒤</b> 1% 규칙으로 조각을 지웠다(합친 뒤 4개 → 단추 3개 삭제). 수통·탄띠, 소총 가늠쇠·방아쇠울은 본체에 붙어 있어 남았다. 4K 텍스처는 2K로 줄였다(FBX 45.1 → 14.0 MB).</div>
+<div class="note">석구는 20,000으로 생성했지만 받은 FBX가 200,000이어서 Decimate 0.1로 줄였다. 원본은 UV 이음매마다 정점이 갈라져 '떨어진 조각'이 석구 3,836개로 잡혀서, <b>Merge by Distance(0.1 mm)를 먼저 한 뒤</b> 1% 규칙으로 조각을 지웠다(합친 뒤 4개 → 단추 3개 삭제). 수통·탄띠, 소총 가늠쇠·방아쇠울은 본체에 붙어 있어 남았다. 4K 텍스처는 2K로 줄였다(메시만 FBX 45.1 → 14.0 MB).</div>
 <div class="row">
 <div class="shot" style="height:56mm"><div class="g3"><img src="captures/before/seokgu_front_wire.png"><img src="captures/before/garand_front_wire.png"><img src="captures/before/sandbag_front_wire.png"></div><div class="cap">정리 전 · Wireframe + Statistics (200,000 / 20,000 / 500,000 tris)</div></div>
 <div class="shot" style="height:56mm"><div class="g3"><img src="captures/after/seokgu_front_wire.png"><img src="captures/after/garand_front_wire.png"><img src="captures/after/sandbag_front_wire.png"></div><div class="cap">정리 후 · 같은 오버레이 (20,143 / 5,000 / 40,258 tris)</div></div>
@@ -191,8 +191,8 @@ pre { font-family: "DejaVu Sans Mono", monospace; font-size: 7.1pt; line-height:
 </table>
 <div class="res">FBX는 셰이더 노드를 싣지 못하므로 HSV 노드와 같은 계산(선형 공간 Saturation ×0.9, Value ×0.87)을 베이스 컬러 텍스처에 구웠다. 금속은 ORM 텍스처에서 Metallic &gt; 0.5 픽셀만 0.8~1.0 / Roughness 0.4~0.55로 매핑(소총 금속 32%: 평균 M 0.64→0.86), 철모는 분리 후 전용 재질 M 0.85·R 0.5.</div>
 <div class="row">
-<div class="shot" style="height:43mm"><img src="captures/before/style.png" style="object-position:50% 60%"><div class="cap">조정 전 3종 나란히 (Material Preview)</div></div>
-<div class="shot" style="height:43mm"><img src="captures/after/style.png" style="object-position:50% 60%"><div class="cap">조정 후 3종 나란히 (같은 조명)</div></div>
+<div class="shot" style="height:43mm"><img src="captures/before/style_crop.png"><div class="cap">조정 전 3종 나란히 (Material Preview)</div></div>
+<div class="shot" style="height:43mm"><img src="captures/after/style_crop.png"><div class="cap">조정 후 3종 나란히 (같은 조명)</div></div>
 </div>
 
 <h3>게임용 편집 · 검수</h3>
@@ -200,12 +200,12 @@ pre { font-family: "DejaVu Sans Mono", monospace; font-size: 7.1pt; line-height:
 <tr><th style="width:28mm">작업</th><th>방법</th><th style="width:28mm">대상</th></tr>
 <tr><td>파츠 분리 · 조합</td><td>석구의 철모를 분리(P → Selection)해 별도 오브젝트로 만들어, 벗기거나 다른 철모로 바꿀 수 있게 정리. 진지는 모래주머니 벽을 앞줄·옆줄 단위로 나눠 Unity에서 엄폐물 배치를 바꿀 수 있게 정리</td><td>오석구, 진지</td></tr>
 <tr><td>뒤집힌 면 수정</td><td>Overlays → Face Orientation으로 빨간 면 확인 → 전체 선택 후 Shift+N (Recalculate Outside). 요청 4 스크립트로 일괄 처리</td><td>3종 모두</td></tr>
-<tr><td>구멍 수정</td><td>Select → All by Trait → Non Manifold로 열린 가장자리 찾기 → Alt+F (Fill) 또는 Grid Fill</td><td>M1 개런드, 오석구</td></tr>
+<tr><td>구멍 수정</td><td>Select → All by Trait → Non Manifold로 열린 가장자리 찾기 → Alt+F (Fill) 또는 Grid Fill</td><td>오석구(철모·머리), 진지</td></tr>
 </table>
 <div class="res">결과: 철모 Seokgu_Helmet 1,336 tris(챙 높이 1.514 m, 이마 피부는 텍스처 색으로 걸러 냄) · 진지 Ground 27,567 / Wall_Front 6,154 / Wall_Left 3,472 / Wall_Right 3,065 tris. 뒤집혔던 면: 석구 74, 소총 0, 진지 572. Non-manifold: 소총 0 → 0, 철모 203 → 80(29면 메움), 진지 2,634 → 2,317(지형 바깥 테두리·벽 절단 경계라 남김).</div>
 <div class="row">
 <div class="shot" style="height:43mm"><div class="g2"><img src="captures/before/sandbag_faceori.png"><img src="captures/after/seokgu_faceori.png"></div><div class="cap">Face Orientation (파랑 = 바깥, 빨강 = 뒤집힘) · 진지 원본 / 석구 정리 후</div></div>
-<div class="shot" style="height:43mm"><div class="g2"><img src="captures/after/seokgu_outliner.png" style="object-position:100% 0"><img src="captures/after/sandbag_outliner.png" style="object-position:100% 0"></div><div class="cap">파츠 분리 · Outliner (Seokgu_Helmet / Env_SandbagPosition 아래 벽 3개)</div></div>
+<div class="shot" style="height:43mm"><img src="captures/after/parts_outliner.png"><div class="cap">파츠 분리 · Outliner (Seokgu_Helmet / Env_SandbagPosition 아래 벽 3개)</div></div>
 </div>
 <div class="foot">01_블렌더기초 · 제 1차 성취도 평가 포트폴리오 — 5 / 9</div>
 </section>
@@ -237,7 +237,7 @@ pre { font-family: "DejaVu Sans Mono", monospace; font-size: 7.1pt; line-height:
 <tr><td>Walk</td><td>83 → 반복 구간 7–74 = <b>67</b> (2.2 s)</td><td>원본 3–85는 첫·끝 최대 74°(걷기 시작 동작 포함) → 맞물리는 구간을 찾아 최대 7.6°, 평균 5.0° ✔ 제자리</td><td>Loop Time ✔ Loop Pose ✔</td></tr>
 </table>
 <div class="row">
-<div class="shot" style="height:52mm"><img src="captures/after/anim_nla.png" style="object-position:100% 0"><div class="cap">Blender · Armature 아래 Walk 액션과 NLA Tracks (Idle / Walk)</div></div>
+<div class="shot" style="height:52mm"><img src="captures/after/anim_nla_crop.png"><div class="cap">Blender · Armature 아래 Walk 액션과 NLA Tracks (Idle / Walk)</div></div>
 <div class="shot" style="height:52mm"><img src="captures/after/anim_walk_f40_side.png" style="object-position:50% 45%"><div class="cap">Walk 40프레임 · 정리 메시가 원본과 같이 변형</div></div>
 </div>
 <div class="foot">01_블렌더기초 · 제 1차 성취도 평가 포트폴리오 — 6 / 9</div>
@@ -248,7 +248,7 @@ pre { font-family: "DejaVu Sans Mono", monospace; font-size: 7.1pt; line-height:
 <p>Blender에서 반복되는 작업을 Claude에게 요청하고, 받은 코드를 Scripting 탭에서 실행했다. 기록마다 요청문 · 결과 · 확인 내용을 남긴다.</p>
 
 <div class="req"><div class="t">요청 1 — 게임 규격 일괄 정리<span>게임 규격</span></div>
-<div class="q">"Blender 4.x에서 선택한 메시마다 회전·스케일을 적용하고, 기준 크기(석구 키 1.70 m, 소총 길이 1.10 m, 진지 폭 6 m)에 맞게 균등 스케일한 다음, 원점을 바운딩 박스 바닥 중앙으로 옮기고 월드 원점에 놓는 스크립트를 만들어줘. 전후 크기를 출력해줘."</div>
+<div class="q">"Blender 5.2에서 선택한 메시마다 회전·스케일을 적용하고, 기준 크기(석구 키 1.70 m, 소총 길이 1.10 m, 진지 폭 6 m)에 맞게 균등 스케일한 다음, 원점을 바운딩 박스 바닥 중앙으로 옮기고 월드 원점에 놓는 스크립트를 만들어줘. 전후 크기를 출력해줘."</div>
 <pre>import bpy
 from mathutils import Vector
 
