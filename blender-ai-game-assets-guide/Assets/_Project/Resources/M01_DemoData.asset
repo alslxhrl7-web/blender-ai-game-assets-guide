@@ -1,0 +1,274 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3ae20cf3266c255488ac2db56c164f5b, type: 3}
+  m_Name: M01_DemoData
+  m_EditorClassIdentifier: Assembly-CSharp::M01DemoData
+  totalSeconds: 180
+  beats:
+  - id: INTRO
+    title: "\uB3C4\uC785"
+    start: 0
+    end: 25
+  - id: FIRST_FLARE
+    title: "\uCCAB \uC870\uBA85\uD0C4"
+    start: 25
+    end: 40
+  - id: ASSAULT
+    title: "\uACF5\uC138"
+    start: 40
+    end: 85
+  - id: SILENCE
+    title: "\uC815\uC801"
+    start: 85
+    end: 105
+  - id: T34
+    title: T-34
+    start: 105
+    end: 145
+  - id: DAWN
+    title: "\uC0C8\uBCBD\uACFC \uD0DC\uC11D"
+    start: 145
+    end: 170
+  - id: END
+    title: "\uBBF8\uC158 \uC885\uB8CC \uD654\uBA74"
+    start: 170
+    end: 180
+  enemy:
+    health: 100
+    moveSpeed: 6.5
+    fireIntervalMin: 2
+    fireIntervalMax: 3
+    missRadius: 1.6
+    grazeChance: 0.2
+  waves:
+  - time: 28
+    label: "\uC815\uCC30\uBCD1"
+    route: 2
+    stops:
+    - marker: CP06
+      offset: {x: 1.5, y: 0, z: -0.5}
+    - marker: CP13
+      offset: {x: 1.5, y: 0, z: -0.5}
+  - time: 40
+    label: "\uC18C\uCD1D\uC218"
+    route: 2
+    stops:
+    - marker: CP14
+      offset: {x: 1.5, y: 0, z: -0.5}
+    - marker: CP15
+      offset: {x: 1.5, y: 0, z: -0.5}
+    - marker: CP16
+      offset: {x: 1.5, y: 0, z: -0.5}
+  - time: 60
+    label: "\uC18C\uCD1D\uC218"
+    route: 1
+    stops:
+    - marker: CP03
+      offset: {x: 1.5, y: 0, z: -0.5}
+    - marker: CP17
+      offset: {x: 1.5, y: 0, z: -0.5}
+  - time: 70
+    label: "\uC18C\uCD1D\uC218"
+    route: 3
+    stops:
+    - marker: CP09
+      offset: {x: -1.5, y: 0, z: -1}
+    - marker: CP18
+      offset: {x: 1.5, y: 0, z: -0.5}
+  flare:
+    riseSeconds: 2
+    brightSeconds: 8
+    fadeSeconds: 3
+    lightIntensity: 1.9
+    color: {r: 1, g: 0.93, b: 0.8, a: 1}
+    shots:
+    - time: 27
+      marker: FLARE_W
+      fadeSeconds: 0
+      note: "\uC815\uCC30\uBCD1 2\uBA85"
+    - time: 41
+      marker: FLARE_E
+      fadeSeconds: 0
+      note: "\uACF5\uC138 \uC2DC\uC791"
+    - time: 68
+      marker: FLARE_W
+      fadeSeconds: 0
+      note: "\uB0A8\uC740 \uC801 4\uBA85"
+    - time: 82
+      marker: FLARE_E
+      fadeSeconds: 9
+      note: "\uACF5\uC138 \uB9C8\uBB34\uB9AC. \uC815\uC801 \uAD6C\uAC04\uC73C\uB85C \uB118\uC5B4\uAC00\uBA70 \uCC9C\uCC9C\uD788 \uAEBC\uC9C4\uB2E4"
+    - time: 107
+      marker: FLARE_E
+      fadeSeconds: 0
+      note: "T-34 \uB4F1\uC7A5"
+  weapon:
+    m1BodyDamage: 60
+    m1HeadDamage: 100
+    m1FireInterval: 0.25
+    m1ClipSize: 8
+    m1SpareClips: 1
+    m1ReloadSeconds: 2.2
+    ammoBoxClips: 3
+    interactRange: 2.5
+    ammoBoxMarker: AMMO_01
+    bazookaRockets: 3
+    bazookaReloadSeconds: 4.5
+  t34:
+    appearAt: 105
+    arriveAt: 130
+    cannonTimes:
+    - 110
+    - 122
+    mgFrom: 120
+    mgTo: 130
+    sideHitsToStop: 2
+    autoStopAt: 145
+    fastUntil: 115
+    fastFraction: 0.82
+    sideAngle: 60
+    moundPath: Run_To_D
+  player:
+    walkSpeed: 4
+    sprintSpeed: 6.5
+    proneSpeed: 1.2
+    eyeStand: 1.6
+    eyeProne: 0.45
+    mouseSensitivity: 0.08
+    invincibleByDefault: 1
+  intro:
+    captionSeconds: 4
+    truckStopAt: 8
+    walkFrom: 10
+    arriveAt: 25
+  dawn:
+    fadeOutAt: 145
+    blackUntil: 147.5
+    fadeInSeconds: 2.5
+    reinforcements: 4
+    taeseokSitAt: 151.5
+  showLinesAsSubtitles: 1
+  lines:
+  - id: UI_001
+    speaker: 
+    time: 0
+    text: "1950\uB144 8\uC6D4, \uACBD\uBD81 \uCE60\uACE1 \uB2E4\uBD80\uB3D9"
+    seconds: 4
+    caption: 1
+    note: "\uC2DC\uC791 \uC790\uB9C9"
+  - id: VO_Kim_000
+    speaker: "\uAE40\uB355\uB9CC"
+    time: 8
+    text: "\uC2E0\uBCD1\uB4E4 \uB0B4\uB824\uB77C. \uACE0\uAC1C \uC219\uC774\uACE0 \uB530\uB77C\uC624\uB77C\uC6B0."
+    seconds: 3.5
+    caption: 0
+    note: "\uD3C9\uC548\uB3C4 \uB9D0\uC528, \uAC10\uC218 \uD544\uC694"
+  - id: VO_Kim_001
+    speaker: "\uAE40\uB355\uB9CC"
+    time: 20
+    text: "\uC870\uBA85\uD0C4 \uB728\uBA74 \uACE0\uAC1C \uC219\uC774\uB77C. \uBC1D\uC744 \uB54C \uC3D8\uACE0, \uC5B4\uB450\uC6B8 \uB54C \uC6C0\uC9C1\uC774\uB77C."
+    seconds: 5
+    caption: 0
+    note: 
+  - id: VO_Kim_002
+    speaker: "\uAE40\uB355\uB9CC"
+    time: 28
+    text: "\uC800\uAE30, \uB2A5\uC120 \uC544\uB798! \uB458\uC774\uB2E4!"
+    seconds: 3
+    caption: 0
+    note: 
+  - id: VO_Kim_003
+    speaker: "\uAE40\uB355\uB9CC"
+    time: 40
+    text: "\uC628\uB2E4! \uAC01\uC790 \uC790\uB9AC \uC9C0\uD0A4\uB77C!"
+    seconds: 3
+    caption: 0
+    note: 
+  - id: VO_Enemy_001
+    speaker: "\uBD81\uD55C\uAD70"
+    time: 41
+    text: "\uC55E\uC73C\uB85C!"
+    seconds: 2
+    caption: 0
+    note: "\uACE0\uC99D \uD655\uC778 \uD544\uC694"
+  - id: VO_Park_001
+    speaker: "\uBC15\uC6A9\uD314"
+    time: 43
+    text: "\uC628\uB2E4, \uC628\uB2E4\uC789!"
+    seconds: 3
+    caption: 0
+    note: "\uC804\uB77C\uB3C4 \uB9D0\uC528, \uAC10\uC218 \uD544\uC694"
+  - id: VO_Enemy_002
+    speaker: "\uBD81\uD55C\uAD70"
+    time: 60
+    text: "\uB3CC\uACA9!"
+    seconds: 2
+    caption: 0
+    note: "\uACE0\uC99D \uD655\uC778 \uD544\uC694"
+  - id: VO_Park_002
+    speaker: "\uBC15\uC6A9\uD314"
+    time: 64
+    text: "\uC11D\uAD6C\uC57C, \uD0C4\uC57D \uC0C1\uC790 \uB4A4\uC5D0 \uC788\uB2F9\uAED8!"
+    seconds: 3.5
+    caption: 0
+    note: 
+  - id: VO_Park_003
+    speaker: "\uBC15\uC6A9\uD314"
+    time: 90
+    text: "\uB9CC\uC218\uC57C? \u2026\uB9CC\uC218\uC57C."
+    seconds: 5
+    caption: 0
+    note: "\uB300\uB2F5 \uC5C6\uC74C. \uC0AC\uB78C \uBAA9\uC18C\uB9AC"
+  - id: VO_Kim_004
+    speaker: "\uAE40\uB355\uB9CC"
+    time: 110
+    text: "\uC804\uCC28\uB2E4! \uC11D\uAD6C\uC57C, \uB454\uB355\uC73C\uB85C \uAC00\uB77C! \uC606\uAD6C\uB9AC\uB97C \uC3D8\uB77C\uC6B0!"
+    seconds: 5
+    caption: 0
+    note: "\uC0AC\uB78C \uBAA9\uC18C\uB9AC"
+  - id: VO_Taeseok_001
+    speaker: "\uC724\uD0DC\uC11D"
+    time: 152
+    text: "\uD3EC\uD56D\uC5D0\uC11C \uC654\uC2B5\uB2C8\uB2E4."
+    seconds: 3
+    caption: 0
+    note: "\uC573\uB41C \uBAA9\uC18C\uB9AC. \uC0AC\uB78C \uBAA9\uC18C\uB9AC \uAD8C\uC7A5"
+  - id: VO_Seokgu_N01
+    speaker: "\uC11D\uAD6C (\uB0B4\uB808\uC774\uC158)"
+    time: 155
+    text: "\uC5EC\uBCF4, \uB0A0\uC774 \uBC1D\uC558\uC18C. \uC624\uB298 \uC544\uCE68 \uD559\uC0DD\uB4E4\uC774 \uC654\uB294\uB370, \uADF8\uC911 \uD558\uB098\uB294 \uD3EC\uD56D\uC5D0\uC11C \uC654\uB2E4 \uD558\uC624."
+    seconds: 6.5
+    caption: 0
+    note: 
+  - id: VO_Seokgu_N02
+    speaker: "\uC11D\uAD6C (\uB0B4\uB808\uC774\uC158)"
+    time: 162
+    text: "\uC774\uB984\uC774 \uD0DC\uC11D\uC774\uB77C \uD588\uC18C. \uB0B4 \uB9C9\uB0C7\uB3D9\uC0DD\uBED8\uC774\uC624."
+    seconds: 3.8
+    caption: 0
+    note: 
+  - id: VO_Seokgu_N03
+    speaker: "\uC11D\uAD6C (\uB0B4\uB808\uC774\uC158)"
+    time: 166
+    text: "\uB9CC\uC218\uB294 \uB05D\uB0B4 \uC544\uCE68\uC744 \uBABB \uBD24\uC18C."
+    seconds: 3.8
+    caption: 0
+    note: "\uC0AC\uB78C \uBAA9\uC18C\uB9AC"
+  endScreen:
+    datePlace: "1950\uB144 8\uC6D4, \uACBD\uBD81 \uCE60\uACE1 \uB2E4\uBD80\uB3D9"
+    datePlaceSeconds: 2
+    killedInAction: "\uC804\uC0AC: \uCD5C\uB9CC\uC218 \uC774\uBCD1"
+    killedSeconds: 3
+    letter: "\"\uC5EC\uBCF4, \uC624\uB298 \uBC24\uC5D0\uB3C4 \uD558\uB298\uC5D0 \uD574\uAC00 \uBA87 \uBC88\uC774\uB098 \uB5B4\uB2E4 \uC84C\uC18C.\""
+    letterSeconds: 3
+    title: "\uB2E4\uC12F \uAC1C\uC758 \uAC15"
+    subtitle: The Forgotten War

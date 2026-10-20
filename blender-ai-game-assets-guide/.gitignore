@@ -1,0 +1,28 @@
+# Unity 가 다시 만드는 폴더·파일 (저장소에 올리지 않는다)
+/[Ll]ibrary/
+/[Tt]emp/
+/[Oo]bj/
+/[Ll]ogs/
+/[Uu]serSettings/
+/[Mm]emoryCaptures/
+/[Bb]uild/
+/[Bb]uilds/
+/Shots/
+*.csproj
+*.sln
+*.slnx
+*.pidb.meta
+*.pdb.meta
+.vs/
+.vscode/
+.idea/
+
+# 원본 작업 파일 (용량이 커서 올리지 않는다. 게임에 쓰는 결과물은 Assets/_Project/Resources 에 있다)
+/ArtSource/Varco/
+/ArtSource/Blender/*.blend
+/ArtSource/Blender/*.blend1
+/ArtSource/Blender/URPLab_Baked/
+/ArtSource/Export/
+/ArtSource/Preview/*
+!/ArtSource/Preview/BG_sheet.png
+*.glb
