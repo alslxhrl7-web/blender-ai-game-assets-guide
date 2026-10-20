@@ -9,9 +9,11 @@ using UnityEditor;
 /// </summary>
 public class WeaponImportSettings : AssetPostprocessor
 {
-    static readonly string[] Folders = { "/Resources/Weapons/", "/Resources/Vehicles/", "/Resources/Characters/Enemy/", "/Resources/Background/" };
+    static readonly string[] Folders = { "/Resources/Weapons/", "/Resources/Vehicles/", "/Resources/Characters/Enemy/", "/Resources/Characters/Allies/", "/Resources/Background/" };
     bool Mine => Folders.Any(assetPath.Contains);
-    bool Animated => assetPath.Contains("/Resources/Characters/Enemy/");
+    bool Animated => assetPath.Contains("/Resources/Characters/Enemy/") || assetPath.Contains("/Resources/Characters/Allies/");
+    /// <summary>규칙을 바꾸면 이 숫자를 올린다. 해당 파일들이 다시 가져와진다.</summary>
+    public override uint GetVersion() => 2;
 
     void OnPreprocessTexture()
     {
@@ -28,6 +30,9 @@ public class WeaponImportSettings : AssetPostprocessor
         importer.materialImportMode = ModelImporterMaterialImportMode.None;
         importer.importAnimation = Animated;
         importer.animationType = Animated ? ModelImporterAnimationType.Generic : ModelImporterAnimationType.None;
+        // 압축을 끈다: 사격 동작은 하체를 한 자세로 고정해 두었는데(fix_fire.py), 압축이 "변하지 않는 곡선"으로 보고 지우면
+        // 다리가 모델의 기본 자세(웅크림)로 돌아가 공중에 뜬 것처럼 보인다.
+        if (Animated) importer.animationCompression = ModelImporterAnimationCompression.Off;
         importer.importCameras = false;
         importer.importLights = false;
     }

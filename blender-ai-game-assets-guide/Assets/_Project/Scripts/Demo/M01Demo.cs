@@ -166,7 +166,48 @@ public class M01Demo : MonoBehaviour
     {
         if (!Waiting) return;
         Waiting = false;
-        if (!Application.isBatchMode) { Cursor.lockState = CursorLockMode.Locked; Cursor.visible = false; }
+        ApplyCursor();
+    }
+
+    /// <summary>Esc 로 연 일시 정지 메뉴(계속하기 · 처음 화면으로 · 게임 종료)가 떠 있다. 시간·소리가 멈춘다.</summary>
+    public bool Paused { get; private set; }
+
+    public void SetPaused(bool on)
+    {
+        if (on && (Waiting || Failed || Finished || Application.isBatchMode)) return;
+        Paused = on;
+        Time.timeScale = on ? 0f : 1f;
+        AudioListener.pause = on;
+        ApplyCursor();
+    }
+
+    /// <summary>시작 화면으로 돌아간다(조작 안내도 다시 나온다).</summary>
+    public void ToTitle()
+    {
+        SetPaused(false);
+        guideSeen = false;
+        skipStartScreen = false;
+        RestartFrom(0f);
+    }
+
+    public static void QuitGame()
+    {
+        Time.timeScale = 1f; AudioListener.pause = false;
+#if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+#else
+        Application.Quit();
+#endif
+    }
+
+    /// <summary>시작 화면·일시 정지 메뉴에서는 마우스 커서를 풀어 버튼을 누를 수 있게 하고, 플레이 중에는 잠근다.</summary>
+    void ApplyCursor()
+    {
+        if (Application.isBatchMode) return;
+        bool free = Waiting || Paused;
+        var want = free ? CursorLockMode.None : CursorLockMode.Locked;
+        if (Cursor.lockState != want) Cursor.lockState = want;
+        if (Cursor.visible != free) Cursor.visible = free;
     }
 
     /// <summary>점수는 화면에 나오지 않는다(기획서 5장 HUD: 점수·킬 카운트 없음). 검사 기록용으로만 센다.</summary>
@@ -204,6 +245,8 @@ public class M01Demo : MonoBehaviour
     {
         if (data == null || Stage == null) return;
         Tools();
+        ApplyCursor();
+        if (Paused) return; // 일시 정지: 시계·플레이어 조작을 멈춘다(메뉴는 DemoHud 가 그린다)
         if (IsA && Failed && Time.unscaledTime - failedAt > 3f)
         {
             skipStartScreen = true;
@@ -328,6 +371,7 @@ public class M01Demo : MonoBehaviour
         var kb = Keyboard.current;
         if (kb == null) return;
         if (Waiting && (kb.enterKey.wasPressedThisFrame || kb.spaceKey.wasPressedThisFrame)) BeginPlay();
+        if (kb.escapeKey.wasPressedThisFrame && IsA && !Waiting) SetPaused(!Paused); // 일시 정지 메뉴
         if (kb.f9Key.wasPressedThisFrame) SkipToNextBeat();
         if (kb.f10Key.wasPressedThisFrame) Invincible = !Invincible;
         if (kb.f11Key.wasPressedThisFrame) UiHidden = !UiHidden;
@@ -354,6 +398,7 @@ public class M01Demo : MonoBehaviour
 
     public void Restart()
     {
+        if (Paused) { Time.timeScale = 1f; AudioListener.pause = false; } // 일시 정지 중에 다시 시작해도 멈춘 채로 넘어가지 않게
         var scene = SceneManager.GetActiveScene();
 #if UNITY_EDITOR
         UnityEditor.SceneManagement.EditorSceneManager.LoadSceneInPlayMode(scene.path, new LoadSceneParameters(LoadSceneMode.Single));

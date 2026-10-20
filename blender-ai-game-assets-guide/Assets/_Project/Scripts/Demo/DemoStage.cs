@@ -387,14 +387,15 @@ public class DemoStage : MonoBehaviour
     void BuildCast()
     {
         var post = new Vector3(0f, 0f, 3.4f); // 북쪽 흙벽 바로 뒤(사격 자리)
-        kim = NewPerson("김덕만", demo.Marker("NPC_KIM") + post, true, 2.2f);
-        park = NewPerson("박용팔", demo.Marker("NPC_PARK") + post, true, 0.9f); // BAR 라 더 자주 쏜다
-        Carry(kim.tr, DemoWeapons.M1Prop, false);   // 김덕만의 총은 기획서에 없어 M1 개런드로 두었다(1차 과제 소품)
+        // 김덕만·박용팔은 바르코3D 인물에 북한군 뼈대·동작을 옮겨 붙인 모델(쏠 때 사격 동작). 박용팔은 1차 과제 모래주머니 진지 안, 앞벽 바로 뒤에 선다.
+        kim = NewPerson("김덕만", demo.Marker("NPC_KIM") + post, true, 2.2f, true, "Characters/Ally_Kim");
+        park = NewPerson("박용팔", demo.Marker("NPC_PARK") + new Vector3(0f, 0f, 1.2f), true, 0.9f, true, "Characters/Ally_Park"); // BAR 라 더 자주 쏜다
+        Carry(kim.tr, DemoWeapons.M1, false);   // 김덕만의 총은 기획서에 없어 M1 개런드로 두었다(손 뼈에 쥔다)
         Carry(park.tr, DemoWeapons.Bar, false);
         // 최만수: 기획서대로 살아 있는 모습도, 쓰러지는 장면도 나오지 않는다. 처음부터 참호 구석에 담요를 덮고 누운 형체로만 보인다.
         // 누구인지는 정적 구간에서 박용팔이 "만수야?" 하고 부를 때 처음 드러나므로, 이름표도 그때 이름으로 바뀐다.
         var mansu = NewPerson("담요를 덮은 형체", demo.Marker("PROP_MANSU"), false, 0f, false);
-        mansuLabel = labels[labels.Count - 1].tr.GetComponent<TextMesh>();
+        mansuLabel = demo.IsA || labels.Count == 0 ? null : labels[labels.Count - 1].tr.GetComponent<TextMesh>();
         mansuNamedAt = float.MaxValue;
         foreach (var line in data.lines) if (line.id == "VO_Park_003") mansuNamedAt = line.time;
         var lying = mansu.tr.position;
@@ -433,12 +434,12 @@ public class DemoStage : MonoBehaviour
         var env = Resources.Load<GameObject>("Props/Env_SandbagPosition");
         if (env != null)
         {
-            // 박용팔(BAR 사수) 자리, 그리고 진지 동쪽 뒤(도입에서 걸어 들어오는 길·둔덕으로 달리는 길 옆, 길은 막지 않는다).
-            foreach (var (id, nm, off) in new[] { ("NPC_PARK", "Park", new Vector3(0f, 0f, 0.6f)), ("NPC_KIM", "East", new Vector3(2f, 0f, -5f)) })
+            // 박용팔(BAR 사수) 자리, 그리고 참호 남쪽 흙둑 뒤(흙둑·흉벽과 겹치지 않게, 둔덕으로 달리는 길은 막지 않는다).
+            foreach (var (id, nm, off) in new[] { ("NPC_PARK", "Park", new Vector3(0f, 0f, 0.6f)), ("NPC_KIM", "East", new Vector3(3f, 0f, -9f)) })
             {
                 var g = Instantiate(env, M01Demo.OnGround(demo.Marker(id) + off), Quaternion.identity, transform);
                 g.name = "Env_SandbagPosition_" + nm;
-                g.transform.localScale = new Vector3(0.85f, 0.8f, 0.85f); // 벽 높이 약 1.4 m: 서 있는 사람 어깨까지
+                g.transform.localScale = new Vector3(0.85f, 0.62f, 0.85f); // 벽 높이 약 1.0 m: 허리까지. 안에 선 박용팔의 상체가 참호에서 보인다
             }
         }
 
@@ -467,7 +468,7 @@ public class DemoStage : MonoBehaviour
         moundArrow.enabled = false;
     }
 
-    Person NewPerson(string name, Vector3 post, bool fires, float burstGap, bool body = true)
+    Person NewPerson(string name, Vector3 post, bool fires, float burstGap, bool body = true, string prefab = null)
     {
         var g = GameObject.CreatePrimitive(PrimitiveType.Capsule);
         Destroy(g.GetComponent<Collider>());
@@ -477,7 +478,7 @@ public class DemoStage : MonoBehaviour
         var p = new Person { tr = g.transform, fires = fires, burstGap = burstGap, post = post };
         Pose(p, post, 0.85f);
         Label(g.transform, name, 1.15f);
-        if (body) DemoBody.Attach(g.transform, false, demo); // 1차 과제의 오석구 모델(Idle·Walk)
+        if (body) DemoBody.Attach(g.transform, false, demo, prefab); // prefab 이 없으면 1차 과제의 오석구 모델(Idle·Walk)
         return p;
     }
 
@@ -578,6 +579,8 @@ public class DemoStage : MonoBehaviour
         var target = NearestVisibleEnemy(p.tr.position);
         if (target == null) return;
         p.nextShot = Time.time + p.burstGap * Random.Range(0.7f, 1.4f);
+        var shooter = p.tr.GetComponent<DemoBody>();
+        if (shooter != null) shooter.LastFired = Time.time; // 사격 동작
         var from = p.tr.position + Vector3.up * 0.55f;
         Flash(from, 6f, 10f, 0.06f);
         Tracer(from, target.Chest + Random.insideUnitSphere * 2.2f, new Color(1f, 0.85f, 0.5f), 0.05f, 0.07f);
@@ -598,6 +601,16 @@ public class DemoStage : MonoBehaviour
 
     public void Tracer(Vector3 from, Vector3 to, Color color, float width, float seconds)
     {
+        // 눈앞을 스치는 예광선은 화면을 가로지르는 굵은 띠로 보인다. 눈에서 2.5 m 안쪽 부분은 잘라 낸다.
+        var cam = Camera.main;
+        if (cam != null)
+        {
+            var eye = cam.transform.position;
+            const float keep = 2.5f;
+            for (int i = 0; i < 12 && (to - eye).sqrMagnitude < keep * keep && (to - from).sqrMagnitude > 0.25f; i++) to = Vector3.Lerp(to, from, 0.25f);
+            for (int i = 0; i < 12 && (from - eye).sqrMagnitude < keep * keep && (to - from).sqrMagnitude > 0.25f; i++) from = Vector3.Lerp(from, to, 0.25f);
+            if ((to - eye).sqrMagnitude < keep * keep && (from - eye).sqrMagnitude < keep * keep) return; // 전부 눈앞이면 그리지 않는다
+        }
         var lr = tracers[nextTracer];
         lr.SetPosition(0, from);
         lr.SetPosition(1, to);
@@ -648,6 +661,7 @@ public class DemoStage : MonoBehaviour
     /// <summary>이름표: 카메라를 바라보고, 멀어도 읽히게 거리에 맞춰 커진다. F11 로 함께 숨는다.</summary>
     public void Label(Transform target, string text, float height)
     {
+        if (demo != null && demo.IsA) return; // A안 화면에는 이름표를 띄우지 않는다(기획서 5장 HUD)
         if (labelFont == null) labelFont = Resources.GetBuiltinResource<Font>("LegacyRuntime.ttf");
         if (labelFont == null) return;
         var tm = New("Label_" + text).AddComponent<TextMesh>();
@@ -684,14 +698,24 @@ public class DemoStage : MonoBehaviour
             if (!show) continue;
             var p = c.owner.position;
             var body = c.owner.GetComponent<DemoBody>();
-            if (body != null && body.Hand != null && c.enemy)
+            if (body != null && body.Hand != null)
             {
-                // 적: 동작(돌격·엄폐·사격)을 따라 오른손에 총을 쥔다. 쓰러지면 아래(땅에 놓기)로 간다.
+                // 적·김덕만·박용팔: 동작(돌격·엄폐·사격)을 따라 오른손 뼈에 총을 쥔다. 쓰러지면 아래(땅에 놓기)로 간다.
                 var e = c.owner.GetComponent<DemoEnemy>();
                 if (e == null || !e.Down)
                 {
-                    var aim = Quaternion.LookRotation(body.Facing);
-                    c.weapon.SetPositionAndRotation(body.Hand.position + aim * new Vector3(0f, 0f, 0.15f), aim * Quaternion.Euler(-6f, 0f, 0f));
+                    // 두 손으로 쥔다: 손잡이(총의 중심점)는 오른손바닥에, 총열은 오른손 → 왼손 방향으로.
+                    // 손 뼈는 Blender 에서 메시의 쥔 손 가운데로 옮겨 두었다(rig_allies.py place_hand_bones).
+                    Vector3 Palm(Transform h) => h.position;
+                    var right = Palm(body.Hand);
+                    var fwd = body.Facing;
+                    if (body.LeftHand != null)
+                    {
+                        var toLeft = Palm(body.LeftHand) - right;
+                        if (toLeft.magnitude > 0.12f && Vector3.Dot(toLeft.normalized, fwd) > 0.2f)
+                            fwd = Vector3.Slerp(fwd, toLeft.normalized, 0.8f);
+                    }
+                    c.weapon.SetPositionAndRotation(right, Quaternion.LookRotation(fwd, Vector3.up));
                     continue;
                 }
             }

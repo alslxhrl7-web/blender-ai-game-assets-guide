@@ -48,10 +48,26 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -6591666763794901597, guid: 8a5d6f6f5f3c7a24a9fe16b062a5823d, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 580e1380f45fd124181fec7f1ab737eb, type: 2}
+    - target: {fileID: -3996531554423699940, guid: 8a5d6f6f5f3c7a24a9fe16b062a5823d, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 580e1380f45fd124181fec7f1ab737eb, type: 2}
     - target: {fileID: 919132149155446097, guid: 8a5d6f6f5f3c7a24a9fe16b062a5823d, type: 3}
       propertyPath: m_Name
       value: Env_SandbagPosition
       objectReference: {fileID: 0}
+    - target: {fileID: 3520011130380621149, guid: 8a5d6f6f5f3c7a24a9fe16b062a5823d, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 580e1380f45fd124181fec7f1ab737eb, type: 2}
+    - target: {fileID: 7566975743349724883, guid: 8a5d6f6f5f3c7a24a9fe16b062a5823d, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 580e1380f45fd124181fec7f1ab737eb, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

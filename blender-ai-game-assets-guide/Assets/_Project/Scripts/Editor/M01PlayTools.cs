@@ -28,6 +28,8 @@ public static class M01PlayTools
     public static void BatchCheck() => Batch("check");
     /// <summary>손을 뗀 채로 두어 전사 → 실패 화면이 나오는지 본다.</summary>
     public static void BatchFail() => Batch("fail");
+    /// <summary>손 뗀 채 죽지 않게 두고 공세 끝(89초)까지: 적이 참호 안으로 들어오지 않고 흉벽 바깥에서 쏘는지 본다.</summary>
+    public static void BatchHold() => Batch("hold");
     public static void BatchSetup() => Batch("setup");
     /// <summary>대표 이미지 후보: 화면 UI 를 숨기고 장면이 좋은 시각에 찍는다(Shots/Rep/).</summary>
     public static void BatchRep() => Batch("rep");
@@ -38,6 +40,56 @@ public static class M01PlayTools
     static int shot;
     static double failSeenAt;
     public static void BatchRecord() => Batch("record");
+
+    /// <summary>
+    /// 모델 점검 화면(Shots/Look/): 조준한 1인칭 화면과, 분대원·적을 옆에서 본 화면을 정해진 시각에 찍는다.
+    /// 자동 조작은 죽지 않게 한다. 배치: -executeMethod M01PlayTools.BatchLook
+    /// </summary>
+    public static void BatchLook() => Batch("look");
+    static readonly (float t, string name, Vector3 pos, Vector3 look)[] LookViews =
+    {
+        (9f, "aim_start", Vector3.zero, Vector3.zero),                                   // pos 0 = 플레이어 화면(조준), pos 1 = 플레이어 화면(허리)
+        (12f, "hip_start", Vector3.one, Vector3.zero),
+        (31f, "hip_flare", Vector3.one, Vector3.zero),
+        (52.2f, "pov_kim", new Vector3(0.5f, 1.6f, -0.3f), new Vector3(6f, 1.2f, 3.4f)),
+        (53.6f, "pov_park", new Vector3(-1f, 1.6f, 0f), new Vector3(-15f, 1.2f, 1.2f)),
+        (130f, "hip_bazooka", Vector3.one, Vector3.zero),
+        (14f, "kim_side", new Vector3(9f, 1.5f, -2.5f), new Vector3(6f, 1.0f, 0f)),
+        (15f, "park_side", new Vector3(-12f, 1.5f, -2.5f), new Vector3(-15f, 1.0f, 0f)),
+        (16f, "trench_long", new Vector3(18f, 1.7f, -1.5f), new Vector3(0f, 1.0f, 0f)),
+        (48f, "aim_assault", Vector3.zero, Vector3.zero),
+        (50f, "kim_close_50", new Vector3(7.8f, 1.5f, 1.2f), new Vector3(6f, 1.0f, 3.4f)),
+        (52f, "kim_fire", new Vector3(8.5f, 1.6f, -2.2f), new Vector3(6f, 1.1f, 0.5f)),
+        (52.5f, "kim_close_52", new Vector3(7.8f, 1.5f, 1.2f), new Vector3(6f, 1.0f, 3.4f)),
+        (53f, "park_fire", new Vector3(-12.5f, 1.6f, -2.2f), new Vector3(-15f, 1.1f, 0.5f)),
+        (66f, "enemy_near1", new Vector3(-3f, 2.2f, 7f), new Vector3(0f, 2.5f, 22f)),
+        (72f, "enemy_near2", new Vector3(5f, 2.2f, 7f), new Vector3(4f, 2.5f, 20f)),
+        (58f, "enemy_slope", new Vector3(0f, 3.5f, 10f), new Vector3(0f, 4f, 45f)),
+        (62f, "enemy_close", new Vector3(-6f, 6f, 22f), new Vector3(-2f, 6f, 40f)),
+        (110f, "aim_tank", Vector3.zero, Vector3.zero),
+        (158f, "dawn_trench", new Vector3(4f, 1.6f, -2.5f), new Vector3(0f, 1.0f, 0f)),
+    };
+    static int look;
+
+    static void CaptureLook(string name, Vector3 pos, Vector3 target)
+    {
+        Directory.CreateDirectory("Shots/Look");
+        var go = new GameObject("look_cam");
+        var cam = go.AddComponent<Camera>();
+        var main = Camera.main;
+        if (main != null) { cam.CopyFrom(main); cam.fieldOfView = 55f; }
+        cam.transform.position = pos;
+        cam.transform.LookAt(target);
+        var rt = new RenderTexture(1280, 720, 24, RenderTextureFormat.ARGB32);
+        cam.targetTexture = rt;
+        cam.Render();
+        RenderTexture.active = rt;
+        var tex = new Texture2D(1280, 720, TextureFormat.RGB24, false);
+        tex.ReadPixels(new Rect(0, 0, 1280, 720), 0, 0); tex.Apply();
+        File.WriteAllBytes($"Shots/Look/{name}.png", tex.EncodeToPNG());
+        RenderTexture.active = null;
+        Object.DestroyImmediate(tex); rt.Release(); Object.DestroyImmediate(rt); Object.DestroyImmediate(go);
+    }
     public static void BatchBuild()
     {
         bool ok = BuildPlayer();
@@ -74,6 +126,7 @@ public static class M01PlayTools
     static readonly List<string> lines = new List<string>();
     static double waitUntil;
     static float minHealth;
+    static float enemyMinZ = 999f; // 참호 앞(x -21.5~21.5)에서 살아 있는 적이 가장 가까이 온 z. 6.5 보다 작으면 흉벽을 넘은 것
     static string lastBeat;
 
     [InitializeOnLoadMethod]
@@ -92,7 +145,7 @@ public static class M01PlayTools
             if (mode == "") return;
             SessionState.EraseString(ModeKey);
             M01Demo.variant = M01Demo.Variant.A;
-            demo = null; recorder = null; lines.Clear(); minHealth = 100f; lastBeat = "";
+            demo = null; recorder = null; lines.Clear(); minHealth = 100f; lastBeat = ""; enemyMinZ = 999f;
             waitUntil = EditorApplication.timeSinceStartup + 10.0;
             Application.runInBackground = true;
             EditorApplication.update += Tick;
@@ -111,10 +164,12 @@ public static class M01PlayTools
                 if (EditorApplication.timeSinceStartup > waitUntil) { lines.Add("FAIL 시연이 시작되지 않았다"); Finish(); }
                 return;
             }
-            demo.Pilot.active = mode != "fail";
+            demo.Pilot.active = mode != "fail" && mode != "hold";
+            if (mode == "hold") demo.SetInvincible(true);
             if (mode == "rep") { demo.SetUiHidden(true); demo.SetInvincible(true); }
             // 자동 조작은 엄폐를 할 줄 몰라 공세에서 죽는다. 흐름 검사·영상은 끝까지 보려고 자동 조작만 죽지 않게 한다(게임 규칙은 그대로, 사망·재시작은 fail 검사로 본다).
-            if (mode == "check" || mode == "record") demo.SetInvincible(true);
+            if (mode == "check" || mode == "record" || mode == "look") demo.SetInvincible(true);
+            look = 0;
             shot = 0; failSeenAt = 0;
             demo.Ended += Finish;
             lines.Add($"MODE A안 {mode}");
@@ -134,6 +189,7 @@ public static class M01PlayTools
         }
         var p = demo.Player;
         minHealth = Mathf.Min(minHealth, p.Health);
+        foreach (var en in demo.Stage.enemies) if (en != null && en.gameObject.activeInHierarchy && !en.Down && Mathf.Abs(en.transform.position.x) < 21.5f) enemyMinZ = Mathf.Min(enemyMinZ, en.transform.position.z);
         string beat = demo.Beat != null ? demo.Beat.id : "";
         if (beat != lastBeat) { lines.Add($"BEAT {demo.Clock:F1}s {beat}  체력 {p.Health:F0}  점수 {demo.Score}"); lastBeat = beat; }
         if (mode == "rep" && shot < RepTimes.Length && demo.Clock >= RepTimes[shot])
@@ -142,12 +198,28 @@ public static class M01PlayTools
             ScreenCapture.CaptureScreenshot($"Shots/Rep/{shot + 1:00}_{(int)RepTimes[shot]}s.png", 2);
             shot++;
         }
+        if (mode == "look" && look < LookViews.Length)
+        {
+            var v = System.Linq.Enumerable.ToArray(System.Linq.Enumerable.OrderBy(LookViews, x => x.t))[look]; // 시각 순서대로
+            demo.Player.ForceAim = v.pos == Vector3.zero && demo.Clock >= v.t - 2f; // 조준 화면은 2초 전부터 조준해 시야가 다 좁아진 뒤 찍는다
+            if (demo.Clock >= v.t)
+            {
+                Directory.CreateDirectory("Shots/Look");
+                if (v.pos == Vector3.zero || v.pos == Vector3.one) ScreenCapture.CaptureScreenshot($"Shots/Look/{v.name}.png");
+                else CaptureLook(v.name, v.pos, v.look);
+                if (v.name == "kim_fire") foreach (var r in Object.FindObjectsByType<Renderer>(FindObjectsSortMode.None)) { var c = r.bounds.center; if (r.enabled && r.gameObject.activeInHierarchy && c.x > -9f && c.x < 3f && c.z > -3f && c.z < 3.5f && r.bounds.size.y > 0.6f && r.bounds.size.y < 2.5f) lines.Add($"NEAR {r.name} root={r.transform.root.name} c={c:F1} size={r.bounds.size:F1}"); }
+                foreach (var b in Object.FindObjectsByType<DemoBody>(FindObjectsSortMode.None)) lines.Add($"LOOK {v.name} {b.name} {b.transform.position:F1} active={b.gameObject.activeInHierarchy} footGap={b.FootGap:F2} anim={b.Playing}");
+                look++;
+            }
+        }
         if (mode == "check" && shot < ShotTimes.Length && demo.Clock >= ShotTimes[shot])
         {
             Directory.CreateDirectory("Shots/A");
             ScreenCapture.CaptureScreenshot($"Shots/A/{shot + 1:00}_{(int)ShotTimes[shot]}s.png");
             shot++;
         }
+        if (mode == "hold" && demo.Clock >= 70f && shot == 0) { Directory.CreateDirectory("Shots/Look"); ScreenCapture.CaptureScreenshot("Shots/Look/hold_70s.png"); shot = 1; }
+        if (mode == "hold" && demo.Clock >= 89f) { Finish(); return; }
         if (demo.Failed)
         {
             // 실패 화면을 한 장 찍고 끝낸다.
@@ -175,6 +247,7 @@ public static class M01PlayTools
             lines.Add($"SCORE {demo.Score}  처치 {st.CountKills()}/{st.EnemiesSpawned} (머리 {demo.Headshots})  후퇴 {st.EnemiesAutoCleared}");
             lines.Add($"PLAYER 사격 {p.ShotsFired} 명중 {p.Hits}  최저 체력 {minHealth:F0}  적 사격 {shots} 중 맞음 {hits}");
             lines.Add($"T34 정면 {demo.Tank.FrontHits} 측면 {demo.Tank.SideHits} 격파 {(demo.Tank.DestroyedByPlayer ? "플레이어" : "아니오")}");
+            lines.Add($"ENEMY 참호 앞에서 가장 가까이 온 z {enemyMinZ:F1} m (흉벽 바깥선 6.5)");
             if (recorder != null) lines.Add($"VIDEO {VideoPath} 프레임 {recorder.Frames} ({recorder.Frames / 30f:F0}초) 소리 {(recorder.HasAudio ? "있음" : "없음")}");
         }
         if (recorder != null) Object.DestroyImmediate(recorder);

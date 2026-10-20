@@ -39,6 +39,8 @@ public class DemoPlayer : MonoBehaviour
 
     // A안 조작(기획서 4장·6장): 우클릭 조준, Z 엎드리기, 달리기 5초, 탄은 R 을 누를 때만 잠깐 보인다
     public bool Aiming { get; private set; }
+    /// <summary>검사 도구가 자동 조작 중에 조준 화면을 확인할 때 켠다.</summary>
+    public bool ForceAim;
     public float Stamina { get; private set; } = M01PlanA.SprintSeconds;
     /// <summary>남은 탄을 화면에 잠깐 보여 준 시각(R, 장전, 보충).</summary>
     public float AmmoShownAt { get; private set; } = -10f;
@@ -70,6 +72,7 @@ public class DemoPlayer : MonoBehaviour
 
     // 손에 든 총(1인칭). 바르코3D → 블렌더로 만든 모델을 Resources/Weapons 에서 읽는다. 없으면 총 없이 진행한다.
     Transform viewM1, viewBazooka;
+    float aimBlend; // 0 = 허리, 1 = 조준
     float kick, lower;
     public bool HasWeaponModels => viewM1 != null && viewBazooka != null;
     Vector3 ammoBox;
@@ -92,8 +95,9 @@ public class DemoPlayer : MonoBehaviour
         ammoBox = d.Marker(wd.ammoBoxMarker);
         Place(M01Demo.OnGround(d.Marker("SPAWN_PLAYER")));
         // 중심점은 M1 이 방아쇠, 바주카가 손잡이다. 총구까지 거리가 M1 은 긴 쪽, 바주카는 짧은 쪽이다.
-        viewM1 = LoadViewModel(DemoWeapons.M1Prop, 1.10f, true); // 1차 과제에서 정리한 M1 개런드(Prop_M1Garand)
-        if (viewM1 == null) viewM1 = LoadViewModel(DemoWeapons.M1, 1.103f, true);
+        viewM1 = LoadViewModel(DemoWeapons.M1View, 1.10f, true); // 1차 과제의 M1 개런드를 1인칭용으로 다시 다듬은 것(조준선 맞춤)
+        if (viewM1 == null) viewM1 = LoadViewModel(DemoWeapons.M1Prop, 1.10f, true);
+        if (cam != null) cam.nearClipPlane = 0.02f; // 눈앞 11cm 의 가늠자가 잘리지 않게
         viewBazooka = LoadViewModel(DemoWeapons.Bazooka, 1.524f, false);
         if (!Application.isBatchMode) { Cursor.lockState = CursorLockMode.Locked; Cursor.visible = false; }
     }
@@ -164,6 +168,7 @@ public class DemoPlayer : MonoBehaviour
             bool sprint = false;
             if (auto)
             {
+                Aiming = ForceAim;
                 if (autoHasMove)
                 {
                     wish = autoMove - transform.position;
@@ -231,13 +236,14 @@ public class DemoPlayer : MonoBehaviour
     void UpdateViewModel(float dt)
     {
         kick = Mathf.MoveTowards(kick, 0f, dt * 9f);
+        aimBlend = Mathf.MoveTowards(aimBlend, Aiming ? 1f : 0f, dt * 6f); // 약 0.17초에 올라온다
         lower = Mathf.MoveTowards(lower, Reloading || Time.time < nextFire - 0.3f ? 1f : 0f, dt * 4f); // 장전·교체 중에는 내린다
         bool show = mode == Mode.Free && !demo.UiHiddenWeapons;
-        Place(viewM1, show && Weapon == 1, Aiming ? new Vector3(0f, -0.115f, 0.40f) : new Vector3(0.15f, -0.17f, 0.50f), 1f); // 조준하면 총을 눈앞 가운데로
-        Place(viewBazooka, show && Weapon == 2, new Vector3(0.21f, -0.30f, 0.20f), 0.4f); // 어깨에 멘 채 장전하므로 조금만 내린다
+        Place(viewM1, show && Weapon == 1, Vector3.Lerp(new Vector3(0.15f, -0.145f, 0.27f), new Vector3(0f, 0f, 0.08f), aimBlend), 1f, (1f - aimBlend) * 4f); // 원점 = 가늠자 구멍. 허리: 오른쪽 아래, 총구가 살짝 안쪽. 조준: 눈앞 8cm 정가운데(판이 시야 가장자리를 가리고 구멍이 크게 보인다)
+        Place(viewBazooka, show && Weapon == 2, new Vector3(0.24f, -0.27f, 0.34f), 0.4f); // 어깨에 멘 채 장전하므로 조금만 내린다
     }
 
-    void Place(Transform view, bool show, Vector3 offset, float lowerScale)
+    void Place(Transform view, bool show, Vector3 offset, float lowerScale, float yawIn = 0f)
     {
         if (view == null) return;
         if (view.gameObject.activeSelf != show) view.gameObject.SetActive(show);
@@ -245,7 +251,7 @@ public class DemoPlayer : MonoBehaviour
         var c = cam.transform;
         float down = lower * lowerScale;
         offset += new Vector3(0f, -0.22f * down, -0.035f * kick);
-        view.SetPositionAndRotation(c.TransformPoint(offset), c.rotation * Quaternion.Euler(-2.5f * kick + 25f * down, 0f, 0f));
+        view.SetPositionAndRotation(c.TransformPoint(offset), c.rotation * Quaternion.Euler(-2.5f * kick + 25f * down, -yawIn, 0f)); // yawIn: 총구를 화면 가운데 쪽으로 살짝 돌린다
     }
 
     public void SetProne(bool on)
@@ -304,7 +310,7 @@ public class DemoPlayer : MonoBehaviour
             float spread = (Aiming ? 0.25f : 1.1f) * (Prone ? M01PlanA.ProneSteadyFactor : 1f);
             dir = Quaternion.AngleAxis(Random.Range(0f, 360f), dir) * (Quaternion.AngleAxis(Random.Range(0f, spread), cam.transform.right) * dir);
         }
-        var muzzle = origin + cam.transform.right * 0.18f - cam.transform.up * 0.14f + dir * 0.7f;
+        var muzzle = Aiming ? origin + dir * 0.8f - cam.transform.up * 0.03f : origin + cam.transform.right * 0.12f - cam.transform.up * 0.12f + dir * 0.7f;
         bool hitSomething = Physics.Raycast(origin, dir, out var hit, 500f, ~0, QueryTriggerInteraction.Ignore);
         var end = hitSomething ? hit.point : origin + dir * 300f;
 

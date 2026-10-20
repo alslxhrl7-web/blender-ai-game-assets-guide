@@ -137,16 +137,19 @@ public class DemoEnemy : MonoBehaviour
                 break;
 
             case State.Charge:
+                // 돌격: 참호 앞 흉벽 바깥(참호 북쪽 선)까지만 다가와 거기서 쏜다. 참호 안으로 뛰어들지 않는다.
                 Face(player.transform.position);
-                if (dist > 6f)
                 {
                     var p = transform.position;
-                    var to = player.transform.position - p; to.y = 0f;
-                    Stand(p + to.normalized * ed.moveSpeed * 0.7f * Time.deltaTime);
+                    var to = ChargeGoal(player.transform.position) - p; to.y = 0f;
+                    float step = ed.moveSpeed * 0.7f * Time.deltaTime;
+                    if (to.magnitude > 0.3f) Stand(p + to.normalized * Mathf.Min(step, to.magnitude));
                 }
-                if (Time.time >= nextShot && Aware(player))
+                if (Time.time >= nextShot)
                 {
-                    FireAt(player);
+                    // 보이면 조준 사격, 흉벽에 가려 안 보이면 머리 위로 제압 사격(총소리·예광선으로 압박만 준다)
+                    if (Aware(player)) FireAt(player);
+                    else if (dist < 30f) SuppressFire(player);
                     nextShot = Time.time + Random.Range(M01PlanA.FireMin, M01PlanA.FireMax);
                 }
                 break;
@@ -156,7 +159,7 @@ public class DemoEnemy : MonoBehaviour
     /// <summary>플레이어를 알아챘는지: 거리(어두울 때 20m, 조명탄 아래 60m, 총소리 45m) 안이고 시야가 트였다.</summary>
     bool Aware(DemoPlayer player)
     {
-        var head = transform.position + Vector3.up * 0.6f;
+        var head = transform.position + Vector3.up * (Crouched ? 0.6f : 0.75f); // 서 있으면 눈높이 약 1.6 m(흉벽 너머를 본다)
         var eye = player.EyePosition;
         float dist = Vector3.Distance(head, eye);
         bool lit = demo.Stage.FlareLevel > 0.3f;
@@ -183,6 +186,30 @@ public class DemoEnemy : MonoBehaviour
         MuzzleFx(aim);
         if (hit) { HitsOnPlayer++; player.TakeHit(M01PlanA.EnemyRifleDamage, transform.position); }
         else if (Random.value < ed.grazeChance) player.Grazed();
+    }
+
+    /// <summary>
+    /// 돌격 목표: 플레이어에게서 8 m 떨어진 자리. 참호(x -21~21) 앞이면 흉벽 바깥(z 6.5 m 이상)에서 멈춘다.
+    /// 예전에는 6 m 까지 곧장 다가와, 흉벽에 가려 쏘지도 못한 채 참호 안으로 내려왔다.
+    /// </summary>
+    Vector3 ChargeGoal(Vector3 playerPos)
+    {
+        var away = transform.position - playerPos; away.y = 0f;
+        if (away.sqrMagnitude < 0.01f) away = Vector3.forward;
+        var goal = playerPos + away.normalized * 8f;
+        if (Mathf.Abs(goal.x) <= 21.5f && goal.z < 6.5f) goal.z = 6.5f;
+        // 이미 그보다 멀리 있으면 그 자리를 넘어가지 않는다(뒤로 물러나지 않음)
+        var cur = transform.position; cur.y = 0f; var pp = playerPos; pp.y = 0f;
+        if ((cur - pp).magnitude < (goal - pp).magnitude) return cur;
+        return goal;
+    }
+
+    /// <summary>흉벽에 가려 플레이어가 안 보일 때: 머리 위로 빗나가는 제압 사격(피해 없음, 가끔 스치는 소리).</summary>
+    void SuppressFire(DemoPlayer player)
+    {
+        ShotsAtPlayer++;
+        MuzzleFx(player.EyePosition + Vector3.up * Random.Range(0.4f, 1.2f) + Random.insideUnitSphere * 0.8f);
+        if (Random.value < ed.grazeChance) player.Grazed();
     }
 
     void MuzzleFx(Vector3 target)

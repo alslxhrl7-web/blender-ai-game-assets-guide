@@ -13,6 +13,12 @@ public static class DemoWeapons
     public const string Mosin = "Weapons/Mosin_Nagant";
     /// <summary>1차 과제(블렌더 기초)에서 정리한 M1 개런드. 중심점이 개머리판 바닥이고 재질이 프리팹에 들어 있다.</summary>
     public const string M1Prop = "Weapons/Prop_M1Garand";
+    /// <summary>
+    /// 1인칭 M1 개런드(뷰모델). 1차 과제 M1 을 Blender(ArtSource/Blender/prep_viewmodel.py)에서 다시 다듬었다:
+    /// 구멍 없는 덩어리 가늠자를 구멍 뚫린 고리로 바꾸고, 고리 구멍과 가늠쇠 꼭대기를 한 줄로 맞춘 뒤 원점을 고리 구멍에 두었다.
+    /// 그래서 원점을 눈앞 정가운데에 두면 조준선이 화면 중앙을 지난다. 방향·크기는 FBX 그대로 쓴다.
+    /// </summary>
+    public const string M1View = "Weapons/VM_M1Garand";
 
     /// <summary>실제 길이(m)</summary>
     public static float LengthOf(string resource) =>
@@ -63,6 +69,7 @@ public static class DemoWeapons
             b.Encapsulate(rb.min); b.Encapsulate(rb.max);
         }
         foreach (var c in model.GetComponentsInChildren<Collider>()) Object.Destroy(c); // 사격 판정에 걸리지 않게
+        if (resource.StartsWith("Weapons/VM_")) return holder; // Blender 에서 방향·크기·원점을 맞춰 둔 뷰모델
         int longAxis = 0, upAxis = 0;
         for (int i = 1; i < 3; i++) if (b.size[i] > b.size[longAxis]) longAxis = i;
         float best = -1f;

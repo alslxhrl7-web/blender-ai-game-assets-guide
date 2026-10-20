@@ -48,6 +48,8 @@ public static class M01CharacterSetup
         var g = (GameObject)PrefabUtility.InstantiatePrefab(env);
         foreach (var mf in g.GetComponentsInChildren<MeshFilter>())
             if (!mf.name.Contains("Ground")) mf.gameObject.AddComponent<MeshCollider>().sharedMesh = mf.sharedMesh; // 흙 바닥은 지형과 겹치므로 뺀다
+        // 재질을 붙인다. 빠뜨리면 FBX 의 빈 기본 재질(흰색)로 그려져 달빛에 하얗게 번쩍인다.
+        if (sandMat != null) foreach (var r in g.GetComponentsInChildren<Renderer>()) r.sharedMaterial = sandMat;
         PrefabUtility.SaveAsPrefabAsset(g, Res + "Props/Env_SandbagPosition.prefab");
         Object.DestroyImmediate(g);
 
@@ -61,28 +63,48 @@ public static class M01CharacterSetup
     /// </summary>
     static void EnemyPrefab()
     {
-        const string dir = Res + "Characters/Enemy/";
-        var model = AssetDatabase.LoadAssetAtPath<GameObject>(dir + "Enemy_NK.fbx");
-        if (model == null) { Debug.LogWarning("[Five Rivers] 적 모델 없음: " + dir + "Enemy_NK.fbx"); return; }
-        string ctlPath = "Assets/_Project/Art/Enemy_NK.controller";
+        RiggedPrefab(Res + "Characters/Enemy/", "Enemy_NK", Res + "Characters/Enemy_Soldier.prefab", "Run");
+        // 김덕만·박용팔: 바르코3D 인물(구운 저폴리)에 북한군과 같은 뼈대·동작을 Blender 에서 옮겨 붙인 것(ArtSource/Blender/rig_allies.py).
+        RiggedPrefab(Res + "Characters/Allies/", "Ally_Kim", Res + "Characters/Ally_Kim.prefab", "Idle");
+        RiggedPrefab(Res + "Characters/Allies/", "Ally_Park", Res + "Characters/Ally_Park.prefab", "Idle");
+    }
+
+    /// <summary>
+    /// 바르코 뼈대(뼈 20개, 손 뼈 포함)와 동작 Run·Cover·Fire·Death 가 든 FBX → 프리팹.
+    /// 상태 이름이 클립 이름과 같은 애니메이터를 만든다. Idle 은 Fire 의 첫 자세에 멈춘 상태(속도 0)로, 총을 겨눈 채 서 있는 자세다.
+    /// </summary>
+    static void RiggedPrefab(string dir, string name, string prefabPath, string defaultState)
+    {
+        var model = AssetDatabase.LoadAssetAtPath<GameObject>(dir + name + ".fbx");
+        if (model == null) { Debug.LogWarning("[Five Rivers] 모델 없음: " + dir + name + ".fbx"); return; }
+        string ctlPath = "Assets/_Project/Art/" + name + ".controller";
         AssetDatabase.DeleteAsset(ctlPath);
         var ctl = UnityEditor.Animations.AnimatorController.CreateAnimatorControllerAtPath(ctlPath);
         var sm = ctl.layers[0].stateMachine;
-        foreach (var o in AssetDatabase.LoadAllAssetsAtPath(dir + "Enemy_NK.fbx"))
+        AnimationClip fire = null;
+        foreach (var o in AssetDatabase.LoadAllAssetsAtPath(dir + name + ".fbx"))
             if (o is AnimationClip clip && !clip.name.StartsWith("__preview"))
             {
                 var s = sm.AddState(clip.name);
                 s.motion = clip;
-                if (clip.name == "Run") sm.defaultState = s;
+                if (clip.name == "Fire") fire = clip;
+                if (clip.name == defaultState) sm.defaultState = s;
             }
+        if (fire != null)
+        {
+            var idle = sm.AddState("Idle");
+            idle.motion = fire;
+            idle.speed = 0f;
+            if (defaultState == "Idle") sm.defaultState = idle;
+        }
 
-        string matPath = "Assets/_Project/Art/M_Enemy_NK.mat";
+        string matPath = "Assets/_Project/Art/M_" + name + ".mat";
         var mat = AssetDatabase.LoadAssetAtPath<Material>(matPath);
         if (mat == null) { mat = new Material(Shader.Find("Universal Render Pipeline/Lit")); AssetDatabase.CreateAsset(mat, matPath); }
-        mat.SetTexture("_BaseMap", AssetDatabase.LoadAssetAtPath<Texture2D>(dir + "T_Enemy_NK_BaseColor.jpg"));
+        mat.SetTexture("_BaseMap", AssetDatabase.LoadAssetAtPath<Texture2D>(dir + "T_" + name + "_BaseColor.jpg"));
         mat.SetFloat("_Smoothness", 0.2f);
-        LinkNormal(mat, dir + "T_Enemy_NK_Normal.jpg");
-        Character(model, ctl, mat, Res + "Characters/Enemy_Soldier.prefab");
+        LinkNormal(mat, dir + "T_" + name + "_Normal.jpg");
+        Character(model, ctl, mat, prefabPath);
     }
 
     /// <summary>바르코3D → 블렌더(clean_prop.py)로 정리한 전차·트럭·최만수(담요) → Resources/Props/{이름}.prefab</summary>

@@ -74,8 +74,8 @@ public class DemoHud : MonoBehaviour
             GUI.color = Color.white;
         }
 
-        // 크로스헤어: 점 하나
-        if (ui && demo.Player != null && demo.Player.mode == DemoPlayer.Mode.Free)
+        // 크로스헤어: 점 하나. 조준 중에는 가늠쇠가 대신하므로 숨긴다(점이 가늠쇠를 가린다).
+        if (ui && demo.Player != null && demo.Player.mode == DemoPlayer.Mode.Free && !demo.Player.Aiming)
         {
             GUI.color = new Color(1f, 1f, 1f, 0.85f);
             GUI.DrawTexture(new Rect(w * 0.5f - 2f, h * 0.5f - 2f, 4f, 4f), Texture2D.whiteTexture);
@@ -157,7 +157,7 @@ public class DemoHud : MonoBehaviour
     //  넣지 않는 것: 히트마커, 킬 카운트, 점수, 미니맵. 미션 종료 화면에도 점수·통계·'미션 완료'가 없다.
     // =====================================================================
     float EndFade => demo.IsA ? 2f : 0.4f;
-    GUIStyle hudC, hudSmall, title, button;
+    GUIStyle hudC, hudSmall, title, button, hudSmallC, hudTitleSmall;
     Texture2D sideRed, dark;
     string eventSpeaker, eventText;
     float eventUntil;
@@ -176,7 +176,9 @@ public class DemoHud : MonoBehaviour
             hudSmall = new GUIStyle(GUI.skin.label) { fontSize = 18, alignment = TextAnchor.LowerRight };
             title = new GUIStyle(hudC) { fontSize = 64 };
             button = new GUIStyle(GUI.skin.button) { fontSize = 26 };
-            sideRed = Gradient(new Color(0.75f, 0.03f, 0.02f));
+            hudSmallC = new GUIStyle(hudC) { fontSize = 16 };
+            hudTitleSmall = new GUIStyle(hudC) { fontSize = 40 };
+            sideRed = EdgeGlow(new Color(0.75f, 0.03f, 0.02f));
             dark = Gradient(new Color(0f, 0f, 0f));
         }
         var p = demo.Player;
@@ -187,6 +189,19 @@ public class DemoHud : MonoBehaviour
             GUI.Label(new Rect(0, h * 0.5f - 130f, w, 80f), "다섯 개의 강", title);
             GUI.Label(new Rect(0, h * 0.5f - 50f, w, 40f), "The Forgotten War", hudC);
             if (GUI.Button(new Rect(w * 0.5f - 90f, h * 0.5f + 40f, 180f, 56f), "시작", button)) demo.BeginPlay();
+            if (GUI.Button(new Rect(w * 0.5f - 90f, h * 0.5f + 108f, 180f, 56f), "게임 종료", button)) M01Demo.QuitGame();
+            GUI.Label(new Rect(0, h * 0.5f + 180f, w, 30f), "Enter 시작 · 플레이 중 Esc 메뉴", hudSmallC);
+            return;
+        }
+
+        // 일시 정지 메뉴(Esc): 계속하기 · 처음 화면으로 · 게임 종료
+        if (demo.Paused)
+        {
+            GUI.color = new Color(0f, 0f, 0f, 0.7f); GUI.DrawTexture(new Rect(0, 0, w, h), Texture2D.whiteTexture); GUI.color = Color.white;
+            GUI.Label(new Rect(0, h * 0.5f - 130f, w, 60f), "일시 정지", hudTitleSmall);
+            if (GUI.Button(new Rect(w * 0.5f - 110f, h * 0.5f - 40f, 220f, 56f), "계속하기", button)) demo.SetPaused(false);
+            if (GUI.Button(new Rect(w * 0.5f - 110f, h * 0.5f + 28f, 220f, 56f), "처음 화면으로", button)) demo.ToTitle();
+            if (GUI.Button(new Rect(w * 0.5f - 110f, h * 0.5f + 96f, 220f, 56f), "게임 종료", button)) M01Demo.QuitGame();
             return;
         }
         if (p == null) return;
@@ -259,6 +274,23 @@ public class DemoHud : MonoBehaviour
     }
 
     /// <summary>가장자리로 갈수록 짙어지는 테두리 그림.</summary>
+    /// <summary>맞은 방향 표시용: 위쪽 가장자리에서 가장 진하고, 아래·양옆으로 부드럽게 사라진다(네모 테두리가 보이지 않게).</summary>
+    static Texture2D EdgeGlow(Color col)
+    {
+        const int n = 64;
+        var tex = new Texture2D(n, n, TextureFormat.RGBA32, false) { wrapMode = TextureWrapMode.Clamp };
+        var px = new Color32[n * n];
+        for (int y = 0; y < n; y++)
+            for (int x = 0; x < n; x++)
+            {
+                float top = Mathf.Pow(y / (n - 1f), 2.2f);                       // 위(y 큰 쪽)가 진하다
+                float side = Mathf.Pow(Mathf.Sin(Mathf.PI * x / (n - 1f)), 1.6f); // 양끝은 0
+                col.a = top * side; px[y * n + x] = col;
+            }
+        tex.SetPixels32(px); tex.Apply();
+        return tex;
+    }
+
     static Texture2D Gradient(Color col)
     {
         const int n = 64;
