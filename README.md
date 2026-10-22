@@ -7,6 +7,7 @@
 - 포트폴리오 PDF: [`portfolio/01_blender/01_블렌더기초_나민재.pdf`](portfolio/01_blender/01_블렌더기초_나민재.pdf)
 - 최종 FBX 3종: [`portfolio/01_blender/export/`](portfolio/01_blender/export) — `Hero_Seokgu.fbx`, `Prop_M1Garand.fbx`, `Env_SandbagPosition.fbx`
 - 추가: M1 개런드 게임용 최종본(LOD0 41k / LOD1 20k 삼각형, 4K PBR, Unity 패키지): [`portfolio/02_m1garand_final/`](portfolio/02_m1garand_final)
+- 추가: 모신나강 M1891/30 게임용 에셋(URP 재질 5종, Unity 패키지): [`portfolio/03_mosin_nagant/`](portfolio/03_mosin_nagant)
 
 > 받는 방법: FBX·PNG·PDF·blend는 Git LFS로 저장돼 있다. 파일 화면의 다운로드 버튼(↓)으로 받거나 `git clone`(Git LFS 설치)으로 받는다. "Download ZIP"에는 LFS 파일 대신 포인터 텍스트가 들어갈 수 있다.
 
