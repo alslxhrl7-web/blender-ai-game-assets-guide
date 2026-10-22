@@ -6,6 +6,7 @@
 - 도구: VARCO 3D, Blender 5.2, Unity 6000.6 (URP), Claude Code
 - 포트폴리오 PDF: [`portfolio/01_blender/01_블렌더기초_나민재.pdf`](portfolio/01_blender/01_블렌더기초_나민재.pdf)
 - 최종 FBX 3종: [`portfolio/01_blender/export/`](portfolio/01_blender/export) — `Hero_Seokgu.fbx`, `Prop_M1Garand.fbx`, `Env_SandbagPosition.fbx`
+- 추가: M1 개런드 게임용 최종본(LOD0 41k / LOD1 20k 삼각형, 4K PBR, Unity 패키지): [`portfolio/02_m1garand_final/`](portfolio/02_m1garand_final)
 
 > 받는 방법: FBX·PNG·PDF·blend는 Git LFS로 저장돼 있다. 파일 화면의 다운로드 버튼(↓)으로 받거나 `git clone`(Git LFS 설치)으로 받는다. "Download ZIP"에는 LFS 파일 대신 포인터 텍스트가 들어갈 수 있다.
 
