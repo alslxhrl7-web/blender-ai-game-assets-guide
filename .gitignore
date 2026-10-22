@@ -75,6 +75,8 @@ mono_crash.*
 *.aab
 *.unitypackage
 *.unitypackage.meta
+# 포트폴리오 제출물은 패키지 파일도 올린다
+!portfolio/**/*.unitypackage
 *.app
 
 # Crashlytics generated file
