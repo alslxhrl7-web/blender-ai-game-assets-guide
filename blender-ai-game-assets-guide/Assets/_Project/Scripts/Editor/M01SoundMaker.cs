@@ -5,7 +5,7 @@ using UnityEditor;
 using UnityEngine;
 
 /// <summary>
-/// 효과음·환경음을 합성해 WAV 로 만든다(Resources/Audio/). 메뉴: Five Rivers > 효과음 만들기
+/// 효과음·환경음을 합성해 WAV 로 만든다(Resources/Audio/). 메뉴: FiveRiver > 효과음 만들기
 /// 파일 이름은 기획서 7장 사운드 목록과 같다. 녹음·라이브러리 소리가 들어오면 같은 이름으로 덮어쓰면 된다.
 /// 고리(loop)로 쓰는 소리(엔진·바람·조명탄 타는 소리)는 길이 안에서 주기가 딱 떨어지게 만들어 이음매가 들리지 않게 한다.
 /// 대사(VO)는 Windows 음성 합성(TTS)으로 따로 만든다(Resources/Audio/VO/).
@@ -18,7 +18,7 @@ public static class M01SoundMaker
     const string Dir = "Assets/_Project/Resources/Audio/";
     static System.Random rng;
 
-    [MenuItem("Five Rivers/효과음 만들기")]
+    [MenuItem("FiveRiver/효과음 만들기")]
     public static void Build()
     {
         Directory.CreateDirectory(Dir);
@@ -113,7 +113,7 @@ public static class M01SoundMaker
             (t, i) => Lp(i, 1, 0.01f) * Env(t - 0.9f, 1.5f) * Gate(t, 0.9f) * 2f), 0.6f));
 
         AssetDatabase.Refresh();
-        Debug.Log("[Five Rivers] 효과음을 만들었습니다: " + Dir);
+        Debug.Log("[FiveRiver] 효과음을 만들었습니다: " + Dir);
     }
 
     // =====================================================================

@@ -297,7 +297,7 @@ public class DemoStage : MonoBehaviour
     {
         if (!demo.TryPath("Route_" + w.route, out var pts) || pts.Length < 2)
         {
-            Debug.LogWarning("[Five Rivers] 공세 경로 없음: Route_" + w.route);
+            Debug.LogWarning("[FiveRiver] 공세 경로 없음: Route_" + w.route);
             return;
         }
         // 경로의 1번 점이 능선 마루다. 마루 바로 뒤에서 넘어오게 한다.
@@ -305,7 +305,7 @@ public class DemoStage : MonoBehaviour
         for (int i = 0; i < w.stops.Count; i++)
         {
             var s = w.stops[i];
-            if (!demo.TryMarker(s.marker, out var stop)) { Debug.LogWarning("[Five Rivers] 엄폐 지점 마커 없음: " + s.marker); continue; }
+            if (!demo.TryMarker(s.marker, out var stop)) { Debug.LogWarning("[FiveRiver] 엄폐 지점 마커 없음: " + s.marker); continue; }
             stop += s.offset;
             float side = (i - (w.stops.Count - 1) * 0.5f) * 3f;
             var route = new[] { crest + new Vector3(side, 0f, 4f), crest + new Vector3(side, 0f, -2f), stop };
@@ -323,7 +323,7 @@ public class DemoStage : MonoBehaviour
             DemoBody.Attach(g.transform, true, demo); // 1차 과제 인물 모델(군복 색만 바꿈)
             EnemiesSpawned++;
         }
-        Debug.Log($"[Five Rivers] {M01Demo.Stamp(demo.Clock)} 공세: {w.label} {w.stops.Count}명, 진입로 {w.route}");
+        Debug.Log($"[FiveRiver] {M01Demo.Stamp(demo.Clock)} 공세: {w.label} {w.stops.Count}명, 진입로 {w.route}");
     }
 
     // B안: 비트가 끝나면 그 비트에 나온 적 가운데 남은 적을 쓰러뜨린다(다음 비트가 제시간에 시작되도록).

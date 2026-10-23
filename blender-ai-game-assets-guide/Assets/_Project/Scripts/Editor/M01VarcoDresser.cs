@@ -5,7 +5,7 @@ using UnityEditor.SceneManagement;
 using UnityEngine;
 
 /// <summary>
-/// 배경 소품을 바르코3D 모델로 바꾼다. 메뉴: Five Rivers > 배경 소품 바르코 모델로 바꾸기
+/// 배경 소품을 바르코3D 모델로 바꾼다. 메뉴: FiveRiver > 배경 소품 바르코 모델로 바꾸기
 /// 순서: 바르코3D(고증 이미지 → 3D) → 블렌더 clean_prop.py(게임 크기·원점·삼각형 줄이기) → Resources/Background/BG_*.fbx
 ///       → 여기서 프리팹(Resources/Props/BG_*) → M01_Dabudong 씬에 배치(기획서 7장 소품 배치 계획).
 /// 코드로 만든 나무·바위·관목(M01RealisticBuilder)은 바르코 모델로 바꾸고, 1950년 경북 산지의 민둥산에 맞게 나무 수를 줄인다.
@@ -32,7 +32,7 @@ public static class M01VarcoDresser
     static Transform root;
     static int placed;
 
-    [MenuItem("Five Rivers/배경 소품 바르코 모델로 바꾸기")]
+    [MenuItem("FiveRiver/배경 소품 바르코 모델로 바꾸기")]
     public static void Run()
     {
         if (!Application.isBatchMode && !EditorSceneManager.SaveCurrentModifiedScenesIfUserWantsTo()) return;
@@ -57,11 +57,18 @@ public static class M01VarcoDresser
         foreach (var (name, collider) in Models)
         {
             var model = AssetDatabase.LoadAssetAtPath<GameObject>(Dir + name + ".fbx");
-            if (model == null) { Debug.LogWarning("[Five Rivers] 배경 모델 없음: " + Dir + name + ".fbx"); continue; }
+            if (model == null) { Debug.LogWarning("[FiveRiver] 배경 모델 없음: " + Dir + name + ".fbx"); continue; }
             string matPath = MatDir + "M_" + name + ".mat";
             var mat = AssetDatabase.LoadAssetAtPath<Material>(matPath);
             if (mat == null) { mat = new Material(Shader.Find("Universal Render Pipeline/Lit")); AssetDatabase.CreateAsset(mat, matPath); }
-            mat.SetTexture("_BaseMap", AssetDatabase.LoadAssetAtPath<Texture2D>(Dir + "T_" + name + "_BaseColor.jpg"));
+            // 잎 카드 나무(적송·덤불, ArtSource/Blender/realistic_nature.py)는 투명한 곳이 있는 PNG: 알파로 잘라 내고 양면으로 그린다.
+            var cutout = AssetDatabase.LoadAssetAtPath<Texture2D>(Dir + "T_" + name + "_BaseColor.png");
+            mat.SetTexture("_BaseMap", cutout != null ? cutout : AssetDatabase.LoadAssetAtPath<Texture2D>(Dir + "T_" + name + "_BaseColor.jpg"));
+            mat.SetFloat("_AlphaClip", cutout != null ? 1f : 0f);
+            mat.SetFloat("_Cutoff", 0.45f);
+            mat.SetFloat("_Cull", cutout != null ? 0f : 2f);
+            if (cutout != null) { mat.EnableKeyword("_ALPHATEST_ON"); mat.SetOverrideTag("RenderType", "TransparentCutout"); mat.renderQueue = (int)UnityEngine.Rendering.RenderQueue.AlphaTest; }
+            else { mat.DisableKeyword("_ALPHATEST_ON"); mat.SetOverrideTag("RenderType", ""); mat.renderQueue = -1; }
             var normal = AssetDatabase.LoadAssetAtPath<Texture2D>(Dir + "T_" + name + "_Normal.jpg");
             if (normal != null) { mat.SetTexture("_BumpMap", normal); mat.EnableKeyword("_NORMALMAP"); }
             mat.SetFloat("_Metallic", name == "BG_Drums" ? 0.3f : 0f);
@@ -82,7 +89,7 @@ public static class M01VarcoDresser
             Object.DestroyImmediate(g);
         }
         AssetDatabase.SaveAssets();
-        Debug.Log($"[Five Rivers] 배경 프리팹 {prefabs.Count}개를 만들었습니다: {PrefabDir}BG_*");
+        Debug.Log($"[FiveRiver] 배경 프리팹 {prefabs.Count}개를 만들었습니다: {PrefabDir}BG_*");
     }
 
     // =====================================================================
@@ -110,7 +117,7 @@ public static class M01VarcoDresser
 
         EditorSceneManager.MarkSceneDirty(scene);
         EditorSceneManager.SaveScene(scene);
-        Debug.Log($"[Five Rivers] 바르코 배경 소품 {placed}개를 놓았습니다: {Scene}");
+        Debug.Log($"[FiveRiver] 바르코 배경 소품 {placed}개를 놓았습니다: {Scene}");
     }
 
     /// <summary>
@@ -120,7 +127,7 @@ public static class M01VarcoDresser
     static void ReplaceVegetation(System.Random rng)
     {
         var veg = GameObject.Find("Vegetation");
-        if (veg == null) { Debug.LogWarning("[Five Rivers] Vegetation 없음"); return; }
+        if (veg == null) { Debug.LogWarning("[FiveRiver] Vegetation 없음"); return; }
         var parent = root.Find("Vegetation_Varco") ?? Group("Vegetation_Varco");
         var kids = new List<Transform>();
         foreach (Transform t in veg.transform) kids.Add(t);
@@ -157,7 +164,7 @@ public static class M01VarcoDresser
             else continue;
             Object.DestroyImmediate(t.gameObject);
         }
-        Debug.Log($"[Five Rivers] 식생 교체: 나무 {trees}, 관목 {bushes}, 바위 {rocks}");
+        Debug.Log($"[FiveRiver] 식생 교체: 나무 {trees}, 관목 {bushes}, 바위 {rocks}");
     }
 
     /// <summary>A 진지: 흉벽 모래주머니, 모래주머니 더미 8, 탄약상자 3, 야전 전화기 1, 수통·야전삽 2, 참호 판자 보강 1</summary>

@@ -99,7 +99,7 @@ public class M01Demo : MonoBehaviour
         if (cam == null) cam = Camera.main;
         if (data == null || cam == null)
         {
-            Debug.LogWarning("[Five Rivers] 시연: 데이터나 카메라가 없어 시작하지 않습니다.");
+            Debug.LogWarning("[FiveRiver] 시연: 데이터나 카메라가 없어 시작하지 않습니다.");
             enabled = false;
             return;
         }
@@ -228,7 +228,7 @@ public class M01Demo : MonoBehaviour
         if (!IsA || Failed || Finished) return;
         FailReason = reason;
         failedAt = Time.unscaledTime;
-        Debug.Log($"[Five Rivers] {Stamp(Clock)} 실패: {reason}");
+        Debug.Log($"[FiveRiver] {Stamp(Clock)} 실패: {reason}");
         Player.SetMode(DemoPlayer.Mode.None, Player.Dead ? 0.3f : data.player.eyeStand);
     }
 
@@ -264,7 +264,7 @@ public class M01Demo : MonoBehaviour
         {
             if (beatIndex >= 0) BeatEnded?.Invoke(beats[beatIndex]);
             beatIndex++;
-            Debug.Log($"[Five Rivers] {Stamp(Clock)} 비트 시작: {beats[beatIndex].title}");
+            Debug.Log($"[FiveRiver] {Stamp(Clock)} 비트 시작: {beats[beatIndex].title}");
             BeatStarted?.Invoke(beats[beatIndex]);
         }
         Pilot.Tick(dt);
@@ -281,7 +281,7 @@ public class M01Demo : MonoBehaviour
         if (!Finished && Clock >= data.totalSeconds)
         {
             Finished = true;
-            Debug.Log("[Five Rivers] 시연 끝: " + Stamp(Clock));
+            Debug.Log("[FiveRiver] 시연 끝: " + Stamp(Clock));
             Ended?.Invoke();
             // A안: 미션 종료 화면이 끝나면 시작 화면으로 돌아간다(검사 도구가 돌릴 때는 그대로 둔다).
             if (IsA && !startWithAutoPilot && !Application.isBatchMode) { guideSeen = false; RestartFrom(0f); }
@@ -393,7 +393,7 @@ public class M01Demo : MonoBehaviour
         if (beatIndex + 1 >= beats.Count) return;
         if (IsA) Stage.ClearEnemies(); // A안: 남은 적은 물러나게 해야 공세에서 기다리지 않고 넘어간다
         Clock = beats[beatIndex + 1].start;
-        Debug.Log("[Five Rivers] 다음 비트로 건너뜀: " + beats[beatIndex + 1].title);
+        Debug.Log("[FiveRiver] 다음 비트로 건너뜀: " + beats[beatIndex + 1].title);
     }
 
     public void Restart()
@@ -419,7 +419,7 @@ public class M01Demo : MonoBehaviour
 
     public Vector3 Marker(string id)
     {
-        if (!TryMarker(id, out var pos)) Debug.LogWarning("[Five Rivers] 마커 없음: " + id);
+        if (!TryMarker(id, out var pos)) Debug.LogWarning("[FiveRiver] 마커 없음: " + id);
         return pos;
     }
 

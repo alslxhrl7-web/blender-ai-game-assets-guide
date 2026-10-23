@@ -34,7 +34,7 @@ public static class DemoWeapons
     public static Transform Load(string resource, float realLength, bool muzzleIsFarEnd)
     {
         var prefab = Resources.Load<GameObject>(resource);
-        if (prefab == null) { Debug.LogWarning("[Five Rivers] 무기 모델 없음: Resources/" + resource); return null; }
+        if (prefab == null) { Debug.LogWarning("[FiveRiver] 무기 모델 없음: Resources/" + resource); return null; }
         var holder = new GameObject("Weapon_" + prefab.name).transform;
         var model = Object.Instantiate(prefab, holder).transform;
         model.localPosition = Vector3.zero;
@@ -56,7 +56,7 @@ public static class DemoWeapons
                 if (normal != null) { mat.SetTexture("_BumpMap", normal); mat.EnableKeyword("_NORMALMAP"); }
                 materials[resource] = mat;
             }
-            else if (resource != M1Prop) Debug.LogWarning("[Five Rivers] 무기 텍스처 없음: " + prefab.name); // 1차 소품은 프리팹 재질을 그대로 쓴다
+            else if (resource != M1Prop) Debug.LogWarning("[FiveRiver] 무기 텍스처 없음: " + prefab.name); // 1차 소품은 프리팹 재질을 그대로 쓴다
         }
 
         // 모델이 어느 축으로 누워 있든 맞춰 세운다: 가장 긴 축이 총열, 그다음 긴 축이 위아래.

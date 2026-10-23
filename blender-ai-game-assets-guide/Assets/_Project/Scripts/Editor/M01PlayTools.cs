@@ -9,21 +9,21 @@ using UnityEngine.SceneManagement;
 
 /// <summary>
 /// M1 시연 A안(직접 플레이) 도구. 2차 평가(Unity 게임 프로토타입) 제출물을 만든다.
-/// 메뉴: Five Rivers > A안 검사 : 자동 조작으로 처음부터 끝까지 돌려 실패·승리 판정과 수치를 Logs/M01Demo/playA.txt 에 남긴다.
-/// 메뉴: Five Rivers > A안 플레이 영상 녹화 : 자동 조작 플레이를 약 2분 MP4 로 Builds/Video/ 에 저장한다.
-/// 메뉴: Five Rivers > A안 PC 빌드 : Builds/A/ 에 Windows 실행 파일을 만든다.
+/// 메뉴: FiveRiver > A안 검사 : 자동 조작으로 처음부터 끝까지 돌려 실패·승리 판정과 수치를 Logs/M01Demo/playA.txt 에 남긴다.
+/// 메뉴: FiveRiver > A안 플레이 영상 녹화 : 자동 조작 플레이를 약 2분 MP4 로 Builds/Video/ 에 저장한다.
+/// 메뉴: FiveRiver > A안 PC 빌드 : Builds/A/ 에 Windows 실행 파일을 만든다.
 /// 배치: -executeMethod M01PlayTools.BatchCheck / BatchRecord / BatchBuild
 /// </summary>
 public static class M01PlayTools
 {
     const string Scene = "Assets/_Project/Scenes/Missions/" + M01Demo.SceneName + ".unity";
     const string ModeKey = "M01PlayMode", BatchKey = "M01PlayBatch";
-    public const string VideoPath = "Builds/Video/02_Unity_Fiveriver_M1_play.mp4";
-    public const string BuildPath = "Builds/02_나민재/Build/FiveRivers_M1.exe"; // 평가지 제출 방법: 빌드는 02_이름 폴더로
+    public const string VideoPath = "Builds/Video/02_Unity_FiveRiver_M1_play.mp4";
+    public const string BuildPath = "Builds/02_나민재/Build/FiveRiver_M1.exe"; // 평가지 제출 방법: 빌드는 02_이름 폴더로
 
-    [MenuItem("Five Rivers/A안 검사 (자동 조작, 빠르게)")] public static void RunCheck() => Run("check");
-    [MenuItem("Five Rivers/A안 플레이 영상 녹화")] public static void RunRecord() => Run("record");
-    [MenuItem("Five Rivers/A안 PC 빌드")] public static void Build() => BuildPlayer();
+    [MenuItem("FiveRiver/A안 검사 (자동 조작, 빠르게)")] public static void RunCheck() => Run("check");
+    [MenuItem("FiveRiver/A안 플레이 영상 녹화")] public static void RunRecord() => Run("record");
+    [MenuItem("FiveRiver/A안 PC 빌드")] public static void Build() => BuildPlayer();
 
     public static void BatchCheck() => Batch("check");
     /// <summary>손을 뗀 채로 두어 전사 → 실패 화면이 나오는지 본다.</summary>
@@ -253,7 +253,7 @@ public static class M01PlayTools
         if (recorder != null) Object.DestroyImmediate(recorder);
         Directory.CreateDirectory("Logs/M01Demo");
         File.WriteAllLines("Logs/M01Demo/playA_" + mode + ".txt", lines, new UTF8Encoding(false));
-        Debug.Log("[Five Rivers] A안 " + mode + " 끝");
+        Debug.Log("[FiveRiver] A안 " + mode + " 끝");
         EditorApplication.ExitPlaymode();
     }
 
@@ -261,7 +261,7 @@ public static class M01PlayTools
     {
         M01Demo.variant = M01Demo.Variant.A;
         PlayerSettings.productName = "다섯 개의 강 - M1 다부동";
-        PlayerSettings.companyName = "Fiveriver";
+        PlayerSettings.companyName = "FiveRiver";
         PlayerSettings.fullScreenMode = FullScreenMode.FullScreenWindow;
         var report = BuildPipeline.BuildPlayer(new BuildPlayerOptions
         {

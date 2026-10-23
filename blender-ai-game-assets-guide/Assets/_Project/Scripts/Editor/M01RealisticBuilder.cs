@@ -10,7 +10,7 @@ using UnityEngine.SceneManagement;
 
 /// <summary>
 /// M1 다부동 그레이박스를 사실적인 외형으로 다듬은 씬(M01_Dabudong)을 만든다.
-/// 메뉴: Five Rivers > M1 사실적으로 다듬기
+/// 메뉴: FiveRiver > M1 사실적으로 다듬기
 /// 그레이박스 씬을 복사해서 시작하므로 좌표, 엄폐물 콜라이더, GreyboxMarker ID는 그대로 유지된다.
 /// 외부 에셋 없이 텍스처, 메시, 식생을 모두 코드로 생성한다.
 /// </summary>
@@ -31,7 +31,7 @@ public static class M01RealisticBuilder
     // =====================================================================
     //  진입점
     // =====================================================================
-    [MenuItem("Five Rivers/M1 사실적으로 다듬기")]
+    [MenuItem("FiveRiver/M1 사실적으로 다듬기")]
     public static void Build()
     {
         if (!EditorSceneManager.SaveCurrentModifiedScenesIfUserWantsTo()) return;
@@ -73,7 +73,7 @@ public static class M01RealisticBuilder
         EditorSceneManager.SaveScene(SceneManager.GetActiveScene(), OutScene);
         AssetDatabase.SaveAssets();
         AssetDatabase.Refresh();
-        Debug.Log("[Five Rivers] M1 사실적 씬을 만들었습니다: " + OutScene);
+        Debug.Log("[FiveRiver] M1 사실적 씬을 만들었습니다: " + OutScene);
     }
 
     // =====================================================================
@@ -115,7 +115,7 @@ public static class M01RealisticBuilder
             RenderTexture.active = null;
             Object.DestroyImmediate(t2); Object.DestroyImmediate(rt); Object.DestroyImmediate(go);
         }
-        Debug.Log("[Five Rivers] 스크린샷 저장: " + outDir);
+        Debug.Log("[FiveRiver] 스크린샷 저장: " + outDir);
     }
 
     static string ArgValue(string key)

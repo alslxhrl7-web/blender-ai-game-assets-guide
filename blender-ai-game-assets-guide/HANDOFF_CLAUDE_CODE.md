@@ -1,4 +1,4 @@
-# 인계: 「다섯 개의 강」(Five Rivers: The Forgotten War) — Claude Code 작업용
+# 인계: 「다섯 개의 강」(FiveRiver: The Forgotten War) — Claude Code 작업용
 
 작성: 2026-10-12, 이전 대화(Claude 앱)에서 넘김. 이 파일은 프로젝트 루트에 있다.
 

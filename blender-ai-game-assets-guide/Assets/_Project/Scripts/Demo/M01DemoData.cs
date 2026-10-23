@@ -7,7 +7,7 @@ using UnityEngine;
 /// 시각은 모두 시작부터의 초. 기획이 Inspector 에서 고치면 코드 수정 없이 바뀐다.
 /// 위치는 좌표 대신 씬의 GreyboxMarker id(CP05 등)와 경로 오브젝트 이름(Route_2 등)으로 적는다.
 /// </summary>
-[CreateAssetMenu(menuName = "Five Rivers/M1 시연 데이터", fileName = "M01_DemoData")]
+[CreateAssetMenu(menuName = "FiveRiver/M1 시연 데이터", fileName = "M01_DemoData")]
 public class M01DemoData : ScriptableObject
 {
     [Tooltip("전체 길이(초)")] public float totalSeconds = 180f;

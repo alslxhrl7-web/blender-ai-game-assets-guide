@@ -36,7 +36,7 @@ public class DemoTank : MonoBehaviour
     {
         demo = d;
         td = d.data.t34;
-        if (!d.TryPath("T34_Path", out path) || path.Length < 2) { Debug.LogWarning("[Five Rivers] 경로 없음: T34_Path"); return; }
+        if (!d.TryPath("T34_Path", out path) || path.Length < 2) { Debug.LogWarning("[FiveRiver] 경로 없음: T34_Path"); return; }
         trench = d.Marker("SPAWN_PLAYER");
 
         Root = d.Stage.New("T34").transform;
@@ -194,13 +194,13 @@ public class DemoTank : MonoBehaviour
             if (demo.IsA && Damage >= M01PlanA.StopDamage) Knockout(true);
             demo.Stage.Flash(point, 200f, 25f, 0.15f); // 불꽃만 튄다
             demo.Play(DemoAudio.Ricochet, 0.9f);
-            Debug.Log($"[Five Rivers] {M01Demo.Stamp(demo.Clock)} T-34 정면 명중: 튕김 (차체 앞에서 {angle:F0}도)");
+            Debug.Log($"[FiveRiver] {M01Demo.Stamp(demo.Clock)} T-34 정면 명중: 튕김 (차체 앞에서 {angle:F0}도)");
             return;
         }
         SideHits++;
         demo.Stage.Flash(point, 500f, 40f, 0.25f);
         demo.Play(DemoAudio.Boom, 0.9f);
-        Debug.Log($"[Five Rivers] {M01Demo.Stamp(demo.Clock)} T-34 측면 명중 {SideHits}발째 (차체 앞에서 {angle:F0}도)");
+        Debug.Log($"[FiveRiver] {M01Demo.Stamp(demo.Clock)} T-34 측면 명중 {SideHits}발째 (차체 앞에서 {angle:F0}도)");
         if (demo.IsA ? Damage >= M01PlanA.StopDamage : SideHits >= td.sideHitsToStop) Knockout(true);
         else StartSmoke(6f, 2.5f);
     }
@@ -219,7 +219,7 @@ public class DemoTank : MonoBehaviour
         StartSmoke(16f, 4f);
         demo.Play(DemoAudio.Boom, 1f, 0.7f);
         if (demo.Player != null) demo.Player.AddShake(0.7f);
-        Debug.Log($"[Five Rivers] {M01Demo.Stamp(demo.Clock)} T-34 정지와 화염 ({(byPlayer ? "측면 명중" : "자동")})");
+        Debug.Log($"[FiveRiver] {M01Demo.Stamp(demo.Clock)} T-34 정지와 화염 ({(byPlayer ? "측면 명중" : "자동")})");
     }
 
     void StartSmoke(float rate, float size)

@@ -10,7 +10,7 @@ using UnityEngine.SceneManagement;
 
 /// <summary>
 /// 열려 있는 M01_Dabudong 씬을 위에서 내려다본 그림(탑뷰)으로 저장한다. 레벨 논의 자료용.
-/// 메뉴: Five Rivers > M1 탑뷰 캡처
+/// 메뉴: FiveRiver > M1 탑뷰 캡처
 /// 씬을 저장하거나 바꾸지 않는다. 캡처하는 동안만 안개를 끄고 마커·경로 표시를 켰다가 원래대로 돌린다.
 /// 결과: Shots/TopView/M01_top_clean.png, M01_top_markers.png, M01_markers.csv (북쪽 +Z 가 위)
 /// </summary>
@@ -25,13 +25,13 @@ public static class M01TopViewCapture
     const float HalfHeight = 95f;
     const int PxW = 1500, PxH = 2000;
 
-    [MenuItem("Five Rivers/M1 탑뷰 캡처")]
+    [MenuItem("FiveRiver/M1 탑뷰 캡처")]
     public static void Capture()
     {
         var scene = SceneManager.GetActiveScene();
         if (scene.name != SceneName)
         {
-            Debug.LogWarning("[Five Rivers] 탑뷰 캡처는 " + SceneName + " 씬을 연 상태에서 실행하세요. 지금 씬: " + scene.name);
+            Debug.LogWarning("[FiveRiver] 탑뷰 캡처는 " + SceneName + " 씬을 연 상태에서 실행하세요. 지금 씬: " + scene.name);
             return;
         }
         Directory.CreateDirectory(OutDir);
@@ -79,7 +79,7 @@ public static class M01TopViewCapture
             RenderSettings.fog = fog;
             Object.DestroyImmediate(go);
         }
-        Debug.Log("[Five Rivers] 탑뷰 저장: " + OutDir + " (마커 " + markers.Length + "개)");
+        Debug.Log("[FiveRiver] 탑뷰 저장: " + OutDir + " (마커 " + markers.Length + "개)");
     }
 
     static void Shoot(Camera cam, string file)

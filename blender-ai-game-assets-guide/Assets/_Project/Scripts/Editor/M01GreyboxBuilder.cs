@@ -5,7 +5,7 @@ using UnityEngine;
 
 /// <summary>
 /// 「다섯 개의 강」 M1 다부동 시연 구간 그레이박스 생성기 (시연 빌드 기획서 B안 2장 기준)
-/// 메뉴: Five Rivers > M1 그레이박스 만들기 (B안)
+/// 메뉴: FiveRiver > M1 그레이박스 만들기 (B안)
 /// 좌표: 기준점(0,0,0)은 플레이어 시작 위치. x 동쪽+, z 북쪽+, y 높이. 단위는 미터.
 /// 넣는 위치: Assets/_Project/Scripts/Editor/ (Editor 폴더 안이어야 한다)
 /// </summary>
@@ -28,7 +28,7 @@ public static class M01GreyboxBuilder
         return Mathf.Lerp(14f, 6f, Mathf.InverseLerp(85f, 105f, z));
     }
 
-    [MenuItem("Five Rivers/M1 그레이박스 만들기 (B안)")]
+    [MenuItem("FiveRiver/M1 그레이박스 만들기 (B안)")]
     public static void Build()
     {
         if (!EditorSceneManager.SaveCurrentModifiedScenesIfUserWantsTo()) return;
@@ -148,7 +148,7 @@ public static class M01GreyboxBuilder
         EditorSceneManager.SaveScene(scene, ScenePath);
         AssetDatabase.SaveAssets();
         Selection.activeGameObject = root;
-        Debug.Log("[Five Rivers] M1 그레이박스(B안)를 만들었습니다: " + ScenePath);
+        Debug.Log("[FiveRiver] M1 그레이박스(B안)를 만들었습니다: " + ScenePath);
     }
 
     // 경사면 위의 점

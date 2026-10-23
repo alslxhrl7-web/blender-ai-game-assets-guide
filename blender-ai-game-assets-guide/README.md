@@ -1,4 +1,4 @@
-# 다섯 개의 강 (Five Rivers: The Forgotten War)
+# 다섯 개의 강 (FiveRiver: The Forgotten War)
 
 6.25전쟁 1인칭 싱글 캠페인의 시연 빌드 저장소다. 지금 만드는 것은 M1 「다부동」 야간 방어 3분 시연(B안, 관람형)이고, 기준 문서는 [Docs/B안_기획서.md](Docs/B안_기획서.md)다.
 
@@ -7,7 +7,7 @@
 ## 처음 받는 방법
 
 1. Unity Hub에서 **Unity 6000.6.0f1**을 설치한다. 버전이 다르면 프로젝트 파일이 바뀌어 다른 사람과 충돌한다.
-2. GitHub Desktop에서 `File > Clone repository`로 `alslxhrl7-web/Fiveriver`를 받는다. 저장소가 비공개라서, 목록에 안 보이면 초대를 아직 수락하지 않은 것이다.
+2. GitHub Desktop에서 `File > Clone repository`로 `alslxhrl7-web/FiveRiver`를 받는다. 저장소가 비공개라서, 목록에 안 보이면 초대를 아직 수락하지 않은 것이다.
 3. Unity Hub에서 `Add`로 받은 폴더를 열어 준다. 처음 열 때는 몇 분 걸린다.
 
 ## 실행해 보기
@@ -49,7 +49,7 @@
 | 레벨(지형, 엄폐 지점, 마커) | `M01_Dabudong` 씬. 마커 위치는 [Docs/M01_TopView.md](Docs/M01_TopView.md) |
 | 모델·텍스처·소리 파일 | `Assets/_Project/Art/` 아래 |
 
-고친 뒤에는 메뉴 `Five Rivers > M1 시연 검사`로 확인한다. 세 가지가 있고, 결과는 `Logs/M01Demo/`에, 화면은 `Shots/Demo/`에 남는다.
+고친 뒤에는 메뉴 `FiveRiver > M1 시연 검사`로 확인한다. 세 가지가 있고, 결과는 `Logs/M01Demo/`에, 화면은 `Shots/Demo/`에 남는다.
 
 - **자동 동선 (빠르게)**: 시연자 동선을 자동으로 따라 하며 1분 안에 확인한다.
 - **손 뗀 채로 (빠르게)**: 아무것도 안 해도 비트가 제시간에 넘어가는지 본다.

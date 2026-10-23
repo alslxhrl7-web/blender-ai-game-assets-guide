@@ -12,7 +12,7 @@ PlayerSettings:
   targetDevice: 2
   useOnDemandResources: 0
   accelerometerFrequency: 60
-  companyName: Fiveriver
+  companyName: FiveRiver
   productName: "\uB2E4\uC12F \uAC1C\uC758 \uAC15 - M1 \uB2E4\uBD80\uB3D9"
   defaultCursor: {fileID: 0}
   cursorHotspot: {x: 0, y: 0}

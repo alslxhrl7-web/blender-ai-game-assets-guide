@@ -242,7 +242,7 @@
 
 ### 성공: 소리 따로 만들기, 대표 이미지, 포트폴리오 정리 (2026-10-19)
 기획 담당 지시: A안·B안 얘기는 빼고, 기획과 다른 점과 대표 이미지를 넣고, 소리도 따로 만들 것. 평가지와 상관없는 얘기는 뺄 것.
-- 효과음 19개: `M01SoundMaker`(메뉴 Five Rivers > 효과음 만들기)가 합성해 `Resources/Audio/`에 기획서 7장 이름 그대로 저장. 녹음이 들어오면 같은 이름으로 바꾸면 된다.
+- 효과음 19개: `M01SoundMaker`(메뉴 FiveRiver > 효과음 만들기)가 합성해 `Resources/Audio/`에 기획서 7장 이름 그대로 저장. 녹음이 들어오면 같은 이름으로 바꾸면 된다.
 - 대사 14줄: Windows TTS(Microsoft Heami, 한국어 여성 하나)로 `Resources/Audio/VO/`. 인물마다 높낮이를 다르게 튼다.
 - `DemoSound`: 밤 바람·풀벌레 → 새벽 바람, 먼 포성, 트럭·T-34 엔진(자리에서 들림), 정적 구간 신음(박용팔이 부르기 전까지), 발소리, 대사. `M01Demo.Play` 는 소리 12개를 돌려 쓴다.
 - 대표 이미지: UI 를 숨기고 찍은 후보 9장(`Shots/Rep/`) 중 새벽 참호(2:40)를 골라 제목을 얹었다. `Builds/02_나민재/02_Unity_대표이미지.png`, 포트폴리오 표지.
@@ -284,7 +284,7 @@
   - `ArtSource/Export/BG_*.fbx` 와 텍스처 JPG 로 내보냈다. 미리보기는 `ArtSource/Preview/BG_sheet.png`.
 - Unity:
   - 모델은 `Resources/Background/` 에 두고 가져오기 규칙을 더했다.
-  - `M01VarcoDresser`(메뉴 Five Rivers > 배경 소품 바르코 모델로 바꾸기)가 프리팹 `Resources/Props/BG_*` 를 만든다.
+  - `M01VarcoDresser`(메뉴 FiveRiver > 배경 소품 바르코 모델로 바꾸기)가 프리팹 `Resources/Props/BG_*` 를 만든다.
   - 같은 스크립트가 `M01_Dabudong` 씬에 기획서 7장대로 508개를 놓는다.
 - 민둥산 고증: 나무를 520그루에서 90그루로 줄였다(죽은 나무 약 45%). 관목은 17그루와 엄폐물 옆 몇 개만 남겼다.
 - 부분: 관목은 잎 조각이 많아 삼각형이 줄지 않는다(24,600). 그래서 수를 줄였다.
@@ -297,7 +297,7 @@
 - 포트폴리오: `Builds/02_나민재/02_Unity_나민재.pdf`(15쪽), 원고는 `Docs/Portfolio_2차/index.html`. 첫 장에 GitHub 링크가 있다. 규칙·HUD·코드 설명을 기획서 기준으로 다시 썼고, 배경 소품 절(2-4)과 6장 "평가지 요구와 내 기획이 다른 점"(점수 UI 를 넣지 않은 이유 등)을 넣었다.
 - 플레이 영상: `02_Unity_Fiveriver_M1_play.mp4`, 1분 53초, 소리 포함. 흐름은 시작 → 공세 → T-34 정지 → 새벽 → 끝 화면.
 - 대표 이미지: `02_Unity_대표이미지.png`(D 둔덕에서 불타는 T-34). 원본 평가지는 그대로 두고 사본 `2차_Unity_평가지_나민재.hwp`/`.pdf` 의 「대표 이미지 첨부」 칸에만 붙였다.
-- 빌드: 하지 않았다. 메뉴 Five Rivers > A안 PC 빌드를 누르면 `Builds/02_나민재/Build/FiveRivers_M1.exe` 로 나오게 경로를 바꿔 두었다.
+- 빌드: 하지 않았다. 메뉴 FiveRiver > A안 PC 빌드를 누르면 `Builds/02_나민재/Build/FiveRivers_M1.exe` 로 나오게 경로를 바꿔 두었다.
 - 미확인: 영상을 사람이 끝까지 보지 않았다(프레임 수·소리 유무만 확인). 평가지 사본의 훈련생 칸은 비워 두었다.
 
 ### 성공: 포트폴리오를 평가지 평가 내용에 해당하는 것만으로 다시 정리 (2026-10-20)
@@ -390,3 +390,29 @@
   - 점검 화면에서 김덕만·박용팔이 두 손으로 총을 겨누고, 적은 엄폐물 뒤에서 겨눈다.
   - 영상 1분 53초를 다시 녹화하고, 화면·대표 이미지·포트폴리오 PDF 를 다시 만들었다.
 - 남은 것: `02.나민재.zip` 은 오전에 만든 빌드다. 새로 빌드해야 이번 수정이 들어간다. GitHub 에 아직 올리지 않았다.
+
+### 진행 중: 이름을 FiveRiver 로 통일 (2026-10-22)
+기획 담당 지시: 프로젝트 이름을 FiveRiver 로 통일하고 비슷한 이름은 없앤다.
+- 바꿈(커밋 전): 메뉴 `FiveRiver/…`, 로그 `[FiveRiver]`, 회사명 `FiveRiver`, 다음 빌드 `FiveRiver_M1.exe`, 영상 `02_Unity_FiveRiver_M1_play.mp4`, README·기획서·인계 문서 제목.
+- 그대로 둠: 제출한 7z 안의 `FiveRivers_M1.exe`(포트폴리오 안내), WORKLOG·인계 문서에 남은 옛 파일·폴더·저장소 이름, 안쪽 Unity 폴더 `blender-ai-game-assets-guide/`(제출 링크 경로).
+- 로컬 폴더: 예전 `Documents\user\Fiveriver` → `Fiveriver_old`. 바깥 폴더 `blender-ai-game-assets-guide` → `FiveRiver` 는 세션이 폴더를 잡고 있어 막혔다. 세션을 닫고 손으로 바꾼다. `m1_sights.py` 출력 경로는 새 경로로 미리 고쳐 두었다.
+- 남은 것:
+  1. 바깥 폴더 이름 바꾸기, Unity Hub 에 새 경로 추가.
+  2. 이번 변경 커밋.
+  3. GitHub 저장소 이름을 `FiveRiver` 로(웹 Settings). 옛 저장소 `alslxhrl7-web/Fiveriver` 가 남아 있으면 대소문자 구분이 없어 막힌다. 바꾼 뒤 `git remote set-url origin https://github.com/alslxhrl7-web/FiveRiver.git`.
+  4. `Downloads\M1Garand_Assembly.blend`(410 MB): `Assets/` 말고 `ArtSource/Blender/` 로 옮긴다. 금속 텍스처 5장(`T_M1_Metal_*`), 나무 AO·Metallic·Normal·Roughness 4장이 다른 PC 경로(`나민재\...\M1Garand_Parts\game_textures`)를 가리켜 빠져 있다. 그 폴더를 가져오거나 그 PC에서 Pack Resources 후 다시 받는다.
+
+### 부분: 배경 나무·바위를 실물에 가깝게 (2026-10-23)
+기획 담당 지시: 리깅 노드 지우고, Blender 로 나무·바위 같은 배경을 집중적으로 깎을 것. 기준은 "최대한 실물과 가깝게". 그 수준이 될 때까지 계속 고칠 것.
+- 바르코 플로우 「다섯개의강」: 인물 5명의 Rig 노드 5개 삭제(2D 이미지만 사용).
+- 1차(`carve_nature.py`, 계산으로 깎고 구운 모델): 모양은 나왔다. 하지만 솔잎이 초록 덩어리이고 색이 계산 무늬라 장난감 같았다. 실물 기준에 못 미쳐 다시 했다.
+- 2차(`realistic_nature.py`): Poly Haven 실측 스캔(CC0, 출처 표기 의무 없음)을 받아 쓴다. 받기는 `fetch_polyhaven.py`, 원본은 `ArtSource/Textures/PolyHaven/`(약 125 MB).
+  - BG_RockA/B/C: 화강암 바위 스캔(namaqualand_boulder_03/04/05)을 1,500 삼각형으로 줄이고, 스캔의 색·굴곡을 구웠다. 사막 바위의 주황 녹을 덜어 팔공산 일대 회백색 화강암 쪽으로 맞췄다.
+  - BG_Pine(적송): 뼈대는 직접 만들었다(비스듬한 몸통, 우산 모양 납작한 솔잎 층). 껍질은 실측 소나무 껍질이다. 아래는 회갈색 거북등, 위는 붉은 주황. 솔잎은 실제 소나무 가지 스캔(pine_sapling_small)을 위·옆에서 찍은 잎 카드 약 1,000장이다. 2,267 삼각형.
+  - BG_DeadTree: 포탄에 쪼개진 꼭대기, 부러진 가지 11개. 실측 껍질에 그을음과 바랜 속나무를 입혔다. 1,313 삼각형.
+  - BG_Bush: 실제 관목 잎 스캔(shrub_04) 카드 150장 + 가는 줄기. 408 삼각형(예전 24,602).
+- 잎 카드는 투명 부분이 있어 색 텍스처가 PNG 다(`T_BG_Pine_BaseColor.png`, `T_BG_Bush_BaseColor.png`). 예전 JPG 두 장은 지웠다.
+  - `M01VarcoDresser` 를 고쳤다: PNG 가 있으면 재질을 Alpha Clip(0.45)·양면으로 만든다.
+- Unity 배치 모드로 `M01VarcoDresser.Batch` 를 실행했다(빌드 아님). 프리팹 21개를 다시 만들고 배경 소품 99개를 다시 놓았다. 적송 43·고사목 47·덤불 23·바위 321개로 커밋본과 수가 같다.
+- 예전 바르코 모델: `ArtSource/Blender/_old_varco_nature/`. 한눈에 보기: `ArtSource/Blender/BG_Nature_Showcase.blend`.
+- 게임 화면 확인(`M01PlayTools.BatchLook`, Shots/Look/): 적송·고사목이 잎 카드·실측 껍질로 보이고 투명 처리도 정상이다. 새벽빛에서 바위가 흙보다 하얗게 떠서 바위 색을 한 단계 어둡게 다시 구웠다(이 수정 뒤의 게임 화면은 미확인).

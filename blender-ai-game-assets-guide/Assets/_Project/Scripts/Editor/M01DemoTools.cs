@@ -8,8 +8,8 @@ using UnityEngine.SceneManagement;
 
 /// <summary>
 /// M1 시연(B안) 도구.
-/// 메뉴: Five Rivers > M1 시연 데이터 만들기 : 기획서 3·4·6장의 수치로 Resources/M01_DemoData.asset 을 만든다(이미 있으면 건드리지 않는다).
-/// 메뉴: Five Rivers > M1 시연 검사 ... : 재생 모드로 3분을 돌려 보고 결과를 Logs/M01Demo/ 에, 화면을 Shots/Demo/ 에 남긴 뒤 멈춘다. 씬은 저장하지 않는다.
+/// 메뉴: FiveRiver > M1 시연 데이터 만들기 : 기획서 3·4·6장의 수치로 Resources/M01_DemoData.asset 을 만든다(이미 있으면 건드리지 않는다).
+/// 메뉴: FiveRiver > M1 시연 검사 ... : 재생 모드로 3분을 돌려 보고 결과를 Logs/M01Demo/ 에, 화면을 Shots/Demo/ 에 남긴 뒤 멈춘다. 씬은 저장하지 않는다.
 ///   - 자동 동선(빠르게/실제 속도): 시연자 동선을 자동으로 따라 하며 확인한다.
 ///   - 손 뗀 채로: 아무 조작도 하지 않아도 비트가 제시간에 넘어가는지(남은 적 자동 처리, T-34 자동 정지) 확인한다.
 /// </summary>
@@ -26,12 +26,12 @@ public static class M01DemoTools
     // =====================================================================
     //  데이터: 기획서의 표를 그대로 옮긴다
     // =====================================================================
-    [MenuItem("Five Rivers/M1 시연 데이터 만들기")]
+    [MenuItem("FiveRiver/M1 시연 데이터 만들기")]
     public static void BuildData()
     {
         if (AssetDatabase.LoadAssetAtPath<M01DemoData>(AssetPath) != null)
         {
-            Debug.Log("[Five Rivers] 시연 데이터가 이미 있어 그대로 둡니다: " + AssetPath);
+            Debug.Log("[FiveRiver] 시연 데이터가 이미 있어 그대로 둡니다: " + AssetPath);
             return;
         }
         if (!AssetDatabase.IsValidFolder("Assets/_Project/Resources")) AssetDatabase.CreateFolder("Assets/_Project", "Resources");
@@ -81,7 +81,7 @@ public static class M01DemoTools
         // 무기·T-34·플레이어·미션 종료 화면 수치는 M01DemoData 의 기본값이 기획서 4·5장 값이다.
         AssetDatabase.CreateAsset(d, AssetPath);
         AssetDatabase.SaveAssets();
-        Debug.Log("[Five Rivers] 시연 데이터를 만들었습니다: " + AssetPath);
+        Debug.Log("[FiveRiver] 시연 데이터를 만들었습니다: " + AssetPath);
     }
 
     static void Beat(M01DemoData d, string id, string title, float start, float end) =>
@@ -103,13 +103,13 @@ public static class M01DemoTools
     // =====================================================================
     //  검사
     // =====================================================================
-    [MenuItem("Five Rivers/M1 시연 검사: 자동 동선 (빠르게)")]
+    [MenuItem("FiveRiver/M1 시연 검사: 자동 동선 (빠르게)")]
     public static void RunCheck() => Run("check");
 
-    [MenuItem("Five Rivers/M1 시연 검사: 손 뗀 채로 (빠르게)")]
+    [MenuItem("FiveRiver/M1 시연 검사: 손 뗀 채로 (빠르게)")]
     public static void RunIdle() => Run("idle");
 
-    [MenuItem("Five Rivers/M1 시연 검사: 자동 동선 (실제 속도 3분)")]
+    [MenuItem("FiveRiver/M1 시연 검사: 자동 동선 (실제 속도 3분)")]
     public static void RunLive() => Run("live");
 
     // 배치 모드: -batchmode -executeMethod M01DemoTools.BatchCheck / BatchIdle / BatchLive
@@ -126,10 +126,10 @@ public static class M01DemoTools
 
     static void Run(string mode)
     {
-        if (EditorApplication.isPlaying) { Debug.LogWarning("[Five Rivers] 재생을 멈춘 뒤 실행하세요."); return; }
+        if (EditorApplication.isPlaying) { Debug.LogWarning("[FiveRiver] 재생을 멈춘 뒤 실행하세요."); return; }
         if (SceneManager.GetActiveScene().name != M01Demo.SceneName)
         {
-            Debug.LogWarning("[Five Rivers] " + M01Demo.SceneName + " 씬을 연 상태에서 실행하세요.");
+            Debug.LogWarning("[FiveRiver] " + M01Demo.SceneName + " 씬을 연 상태에서 실행하세요.");
             return;
         }
         BuildData();
@@ -284,7 +284,7 @@ public static class M01DemoTools
         Directory.CreateDirectory(LogDir);
         string file = Path.Combine(LogDir, (string.IsNullOrEmpty(mode) ? "check" : mode) + ".txt");
         File.WriteAllLines(file, lines, new UTF8Encoding(false));
-        Debug.Log($"[Five Rivers] 시연 검사 끝: failures={failures} ({file})");
+        Debug.Log($"[FiveRiver] 시연 검사 끝: failures={failures} ({file})");
         EditorApplication.ExitPlaymode();
     }
 }

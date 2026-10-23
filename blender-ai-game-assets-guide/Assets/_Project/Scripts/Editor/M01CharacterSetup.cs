@@ -4,7 +4,7 @@ using UnityEditor;
 using UnityEngine;
 
 /// <summary>
-/// 1차 과제(블렌더 기초)에서 정리한 리소스로 게임용 프리팹을 만든다. 메뉴: Five Rivers > 1차 리소스 프리팹 만들기
+/// 1차 과제(블렌더 기초)에서 정리한 리소스로 게임용 프리팹을 만든다. 메뉴: FiveRiver > 1차 리소스 프리팹 만들기
 /// - Hero_Seokgu.fbx (오석구, 20,143 tris, Idle·Walk) → Resources/Characters/Ally_Soldier.prefab (아군: 김덕만·박용팔·보충병·태석)
 ///                                                     → Resources/Characters/Enemy_Soldier.prefab (적: 같은 모델, 군복 색만 바꿈)
 /// - Env_SandbagPosition.fbx (모래주머니 진지) → Resources/Props/Env_SandbagPosition.prefab (벽마다 MeshCollider)
@@ -15,7 +15,7 @@ public static class M01CharacterSetup
     const string Art = "Assets/_Project/Art/Portfolio01/";
     const string Res = "Assets/_Project/Resources/";
 
-    [MenuItem("Five Rivers/1차 리소스 프리팹 만들기")]
+    [MenuItem("FiveRiver/1차 리소스 프리팹 만들기")]
     public static void Build()
     {
         Directory.CreateDirectory(Res + "Characters");
@@ -54,7 +54,7 @@ public static class M01CharacterSetup
         Object.DestroyImmediate(g);
 
         AssetDatabase.SaveAssets();
-        Debug.Log("[Five Rivers] 1차 리소스 프리팹을 만들었습니다: Resources/Characters, Resources/Props");
+        Debug.Log("[FiveRiver] 1차 리소스 프리팹을 만들었습니다: Resources/Characters, Resources/Props");
     }
 
     /// <summary>
@@ -76,7 +76,7 @@ public static class M01CharacterSetup
     static void RiggedPrefab(string dir, string name, string prefabPath, string defaultState)
     {
         var model = AssetDatabase.LoadAssetAtPath<GameObject>(dir + name + ".fbx");
-        if (model == null) { Debug.LogWarning("[Five Rivers] 모델 없음: " + dir + name + ".fbx"); return; }
+        if (model == null) { Debug.LogWarning("[FiveRiver] 모델 없음: " + dir + name + ".fbx"); return; }
         string ctlPath = "Assets/_Project/Art/" + name + ".controller";
         AssetDatabase.DeleteAsset(ctlPath);
         var ctl = UnityEditor.Animations.AnimatorController.CreateAnimatorControllerAtPath(ctlPath);
@@ -112,7 +112,7 @@ public static class M01CharacterSetup
     {
         const string dir = Res + "Vehicles/";
         var model = AssetDatabase.LoadAssetAtPath<GameObject>(dir + name + ".fbx");
-        if (model == null) { Debug.LogWarning("[Five Rivers] 모델 없음: " + dir + name + ".fbx"); return; }
+        if (model == null) { Debug.LogWarning("[FiveRiver] 모델 없음: " + dir + name + ".fbx"); return; }
         string matPath = "Assets/_Project/Art/M_" + name + ".mat";
         var mat = AssetDatabase.LoadAssetAtPath<Material>(matPath);
         if (mat == null) { mat = new Material(Shader.Find("Universal Render Pipeline/Lit")); AssetDatabase.CreateAsset(mat, matPath); }

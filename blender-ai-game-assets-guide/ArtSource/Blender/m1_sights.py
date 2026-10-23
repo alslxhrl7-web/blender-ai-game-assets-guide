@@ -56,7 +56,7 @@ KNOB_Z = 0.0055               # 받침 아래면에서 휠 중심 높이
 BEVEL = 0.0003                # 모서리 베벨 폭(윤곽이 또렷하게 읽히는 정도)
 
 # --- 출력 ---
-OUT_DIR = r"C:\Users\mbc\Documents\user\blender-ai-game-assets-guide\blender-ai-game-assets-guide\ArtSource"
+OUT_DIR = r"C:\Users\mbc\Documents\user\FiveRiver\blender-ai-game-assets-guide\ArtSource"
 EXPORT_PATH = os.path.join(OUT_DIR, "Export", "M1_Sights.fbx")
 RENDER_AIM = os.path.join(OUT_DIR, "Preview", "M1_Sights_aim.png")
 RENDER_SIDE = os.path.join(OUT_DIR, "Preview", "M1_Sights_side.png")

@@ -80,7 +80,7 @@ public class DemoRecorder : MonoBehaviour
         encoder?.Dispose();
         encoder = null;
         if (audio.IsCreated) audio.Dispose();
-        Debug.Log($"[Five Rivers] 영상 저장: {path} ({Frames} 프레임, {Frames / 30f:F0}초, 소리 {(HasAudio ? "있음" : "없음")})");
+        Debug.Log($"[FiveRiver] 영상 저장: {path} ({Frames} 프레임, {Frames / 30f:F0}초, 소리 {(HasAudio ? "있음" : "없음")})");
     }
 
     void OnDestroy() => Finish();
